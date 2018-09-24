@@ -1,0 +1,33 @@
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+
+        <item name="colorPrimaryDark">@color/theme_dark</item> <!--导航栏颜色-->
+        <item name="colorPrimary">@color/theme</item> <!--通知栏颜色-->
+        <item name="colorAccent">@color/theme</item> <!--控件选中后颜色-->
+
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/theme_bg</item>
+        <item name="android:colorBackground">@color/theme_bg</item>
+        <item name="android:textColorPrimary">@color/theme</item>
+        <item name="android:textColor">@color/text_black</item>
+        <item name="android:editTextColor">@color/text_black</item>
+        <item name="android:textColorHint">@color/text_gray</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:colorForeground">@color/theme</item>
+
+    </style>
+
+    <style name="dialog_base" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="animation_bottom">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_from_bottom</item>
+    </style>
+
+</resources>

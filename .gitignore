@@ -8,3 +8,13 @@
 /build
 /captures
 .externalNativeBuild
+.idea/
+app/libs/
+app/proguard-rules.pro
+app/src/main/res/drawable/
+gradle.properties
+gradle/
+gradlew
+gradlew.bat
+library/libs/
+library/proguard-rules.pro

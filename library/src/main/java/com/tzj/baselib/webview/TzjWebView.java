@@ -4,13 +4,24 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+
+import com.tzj.baselib.webviewinteface.OnFullscreenPlayVideo;
+import com.tzj.baselib.webviewinteface.OnWebLoadingProgressLisntener;
 
 public class TzjWebView extends WebView {
     private Activity mActivity;
@@ -22,6 +33,26 @@ public class TzjWebView extends WebView {
      */
     private String originalUrl;
     protected String currentUrl;
+    //进度条
+    private ProgressBar progressBar;
+
+    /**
+     * 视频全屏参数
+     */
+
+    protected static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+    // 全屏时视频加载view
+    private FrameLayout video_fullView;
+    private View xCustomView;
+    private WebChromeClient.CustomViewCallback xCustomViewCallback;
+
+    public void setCanOneKeyBack(boolean canOneKeyBack) {
+        isCanOneKeyBack = canOneKeyBack;
+    }
+
+    //一键退出
+    private boolean isCanOneKeyBack = false;
 
     public TzjWebView(Context context) {
         super(context);
@@ -91,11 +122,19 @@ public class TzjWebView extends WebView {
                 }
             }
         });
+        //初始化进度条
+        progressBar = new ProgressBar(getContext());
+        progressBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 4));
 
+        progressBar.setProgress(10);
+        //把进度条加到Webview中
+        addView(progressBar);
         addWebViewClient(new HrefWebViewClient());
         addWebChromeClient(new UploadDelegate());
         setWebViewClient(webViewClient);
         setWebChromeClient(webChromeClient);
+
+
     }
 
 
@@ -105,22 +144,83 @@ public class TzjWebView extends WebView {
 
     public void addWebChromeClient(DefWebChromeClient client) {
         webChromeClient.addDelegate(client);
+        webChromeClient.setOnWebLoadingProgressLisntener(new OnWebLoadingProgressLisntener() {
+            @Override
+            public void onProgressChange(WebView view, int progress) {
+                if (progress == 100) {
+                    //加载完毕进度条消失
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    //更新进度
+                    progressBar.setProgress(progress);
+
+                }
+
+
+            }
+        });
+
+        webChromeClient.setOnFullscreenPlayVideo(new OnFullscreenPlayVideo() {
+            @Override
+            public void onEnterFullScreenPlay(View view, WebChromeClient.CustomViewCallback callback) {
+                //旋转全屏
+                Activity activity = (Activity) getContext();
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+                TzjWebView.this.setVisibility(View.INVISIBLE);
+                // 如果一个视图已经存在，那么立刻终止并新建一个
+                if (xCustomView != null) {
+                    callback.onCustomViewHidden();
+                    return;
+                }
+                FrameLayout decor = (FrameLayout) activity.getWindow().getDecorView();
+                video_fullView = new FrameLayout(activity);
+                video_fullView.addView(view, COVER_SCREEN_PARAMS);
+                decor.addView(video_fullView, COVER_SCREEN_PARAMS);
+                xCustomView = view;
+                xCustomViewCallback = callback;
+                video_fullView.setVisibility(View.VISIBLE);
+                video_fullView.bringToFront();
+
+
+            }
+
+            @Override
+            public void onExitFullScreenPlay() {
+                if (xCustomView == null) {
+                    // 不是全屏播放状态
+                    return;
+                }
+                //退出全屏
+                Activity activity = (Activity) getContext();
+                activity.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                FrameLayout decor = (FrameLayout) activity.getWindow().getDecorView();
+                decor.removeView(video_fullView);
+                video_fullView = null;
+                xCustomView = null;
+                xCustomViewCallback.onCustomViewHidden();
+                TzjWebView.this.setVisibility(View.VISIBLE);
+            }
+        });
     }
-    public void loadJs(String js){
+
+    public void loadJs(String js) {
         super.loadUrl(js);
     }
+
     public void loadData(String data) {
-        super.loadData(data, "text/html; charset=UTF-8",null);
+        super.loadData(data, "text/html; charset=UTF-8", null);
     }
 
     @Override
     public void loadUrl(String url) {
-        if (url.toLowerCase().startsWith("http")){
-            if (originalUrl==null){
+        if (url.toLowerCase().startsWith("http")) {
+            if (originalUrl == null) {
                 originalUrl = url;
             }
             super.loadUrl(currentUrl = url);
-        }else{
+        } else {
             super.loadUrl(url);
         }
     }
@@ -129,6 +229,7 @@ public class TzjWebView extends WebView {
     public String getOriginalUrl() {
         return originalUrl;
     }
+
     @Override
     public String getUrl() {
         return currentUrl;
@@ -138,15 +239,22 @@ public class TzjWebView extends WebView {
      *
      */
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-        return webChromeClient.onActivityResult(requestCode,resultCode,data);
+        return webChromeClient.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void onBackPressed(){
-        if (canGoBack()){
+
+    public void onBackPressed() {
+        if (canGoBack()) {
             goBack();
-        }else if (mActivity!=null && !mActivity.isFinishing()){
+        } else if (mActivity != null && !mActivity.isFinishing()) {
             mActivity.finish();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        resumeTimers();
     }
 
     @Override
@@ -162,4 +270,14 @@ public class TzjWebView extends WebView {
         super.destroy();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && isCanOneKeyBack) {
+            if (canGoBack()) {
+                goBack();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.GeolocationPermissions;
@@ -17,6 +18,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
 
+import com.tzj.baselib.webviewinteface.OnFullscreenPlayVideo;
+import com.tzj.baselib.webviewinteface.OnWebLoadingProgressLisntener;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +30,8 @@ import java.util.List;
 public final class WebChromeClientDelegate extends WebChromeClient {
     private TzjWebView mWebView;
     private List<DefWebChromeClient> mList = new ArrayList<>();
+    private OnWebLoadingProgressLisntener onWebLoadingProgressLisntener;
+    private OnFullscreenPlayVideo onFullscreenPlayVideo;
 
     public WebChromeClientDelegate(TzjWebView mWebView) {
         this.mWebView = mWebView;
@@ -42,6 +48,9 @@ public final class WebChromeClientDelegate extends WebChromeClient {
         Iterator<DefWebChromeClient> iterator = mList.iterator();
         while (iterator.hasNext()) {
             iterator.next().onProgressChanged(view,newProgress);
+            if (onWebLoadingProgressLisntener!=null){
+                onWebLoadingProgressLisntener.onProgressChange(view,newProgress);
+            }
         }
     }
 
@@ -75,9 +84,13 @@ public final class WebChromeClientDelegate extends WebChromeClient {
     @Override
     public void onShowCustomView(View view, CustomViewCallback callback) {
         super.onShowCustomView(view, callback);
+        Log.e("sssssss","开始全屏播放");
         Iterator<DefWebChromeClient> iterator = mList.iterator();
         while (iterator.hasNext()) {
             iterator.next().onShowCustomView(view,callback);
+            if (onFullscreenPlayVideo!=null){
+                onFullscreenPlayVideo.onEnterFullScreenPlay(view,callback);
+            }
         }
     }
 
@@ -93,9 +106,13 @@ public final class WebChromeClientDelegate extends WebChromeClient {
     @Override
     public void onHideCustomView() {
         super.onHideCustomView();
+        Log.e("sssssss","退出全屏播放");
         Iterator<DefWebChromeClient> iterator = mList.iterator();
         while (iterator.hasNext()) {
             iterator.next().onHideCustomView();
+            if (onFullscreenPlayVideo!=null){
+                onFullscreenPlayVideo.onExitFullScreenPlay();
+            }
         }
     }
 
@@ -355,5 +372,13 @@ public final class WebChromeClientDelegate extends WebChromeClient {
             }
         }
         return false;
+    }
+
+    public void setOnWebLoadingProgressLisntener(OnWebLoadingProgressLisntener onWebLoadingProgressLisntener) {
+        this.onWebLoadingProgressLisntener = onWebLoadingProgressLisntener;
+    }
+
+    public void setOnFullscreenPlayVideo(OnFullscreenPlayVideo onFullscreenPlayVideo) {
+        this.onFullscreenPlayVideo = onFullscreenPlayVideo;
     }
 }

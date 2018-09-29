@@ -34,7 +34,7 @@ public class MainActivity extends BaseLibActivity {
         viewPager = findViewById(R.id.viewPagers);
         webView = findViewById(R.id.webView);
 
-        webView.setCanOneKeyBack(true);
+        webView.setCanOneKeyBack(false);
         webView.loadUrl("https://www.baidu.com");
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,5 +59,14 @@ public class MainActivity extends BaseLibActivity {
     public void onRefresh() {
         super.onRefresh();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        webView.onResume();
+    }
+
+
+
 
 }

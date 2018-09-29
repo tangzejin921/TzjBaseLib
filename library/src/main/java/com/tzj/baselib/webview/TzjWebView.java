@@ -194,7 +194,8 @@ public class TzjWebView extends WebView {
                 }
                 //退出全屏
                 Activity activity = (Activity) getContext();
-                activity.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//                activity.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 FrameLayout decor = (FrameLayout) activity.getWindow().getDecorView();
                 decor.removeView(video_fullView);
                 video_fullView = null;
@@ -272,7 +273,7 @@ public class TzjWebView extends WebView {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && isCanOneKeyBack) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && !isCanOneKeyBack) {
             if (canGoBack()) {
                 goBack();
                 return true;

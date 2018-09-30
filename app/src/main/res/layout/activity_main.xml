@@ -12,13 +12,11 @@
     <com.tzj.baselib.webview.TzjWebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        >
+        android:layout_height="match_parent">
     </com.tzj.baselib.webview.TzjWebView>
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPagers"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"/>
+        android:layout_height="match_parent" />
+
 </LinearLayout>

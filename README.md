@@ -1,5 +1,18 @@
 # BaseLib
 - com.tzj.baselib
+
+### 引用的包
+
+    compileOnly "com.android.support:design:$_supportVersion"
+    //滑动返回(子类不需要用到)
+    implementation 'me.imid.swipebacklayout.lib:library:1.3.0'
+    api 'com.github.tzjandroid:TzjRecyclerView:c6822559c2'
+    //下拉刷新
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    //glide 图片加载
+    api 'com.github.bumptech.glide:glide:4.7.1'
+}
+
 ### BaseActivity 
 
 - 权限

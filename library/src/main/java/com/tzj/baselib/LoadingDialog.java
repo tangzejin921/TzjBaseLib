@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 
 public class LoadingDialog extends BaseDialog{
     public LoadingDialog(Context context) {
@@ -20,7 +22,10 @@ public class LoadingDialog extends BaseDialog{
         clearBack();
         View v = findViewById(R.id.loading_view);
         if (v instanceof ImageView){
-            ((ImageView) v).setImageResource(R.drawable.loading);
+            Glide.with(getContext())
+                    .asGif()
+                    .load(R.drawable.gif_loading)
+                    .into(((ImageView) v));
         }
     }
 }

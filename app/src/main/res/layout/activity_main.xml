@@ -9,11 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="button"/>
-    <com.tzj.swipetoloadlayout.demo.webview.TzjWebView
+    <com.tzj.baselib.webview.TzjWebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.tzj.swipetoloadlayout.demo.webview.TzjWebView>
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+    </com.tzj.baselib.webview.TzjWebView>
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPagers"
         android:layout_width="match_parent"

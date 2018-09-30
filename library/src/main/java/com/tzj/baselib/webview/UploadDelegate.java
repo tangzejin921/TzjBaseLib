@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.TextUtils;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 
@@ -12,11 +13,16 @@ import com.tzj.baselib.chain.activity.BaseLibActivity;
 import com.tzj.baselib.chain.activity.start.ActivityResult;
 import com.tzj.baselib.chain.activity.start.IResult;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 
 /**
+ * 要读写权限
  * 上传文件
  */
 public class UploadDelegate extends DefWebChromeClient{
+    private File file;
     private ValueCallback<Uri[]> fielCallback;
     private ValueCallback<Uri> oldFielCallback;
 
@@ -55,16 +61,45 @@ public class UploadDelegate extends DefWebChromeClient{
     @Override
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
         fielCallback = filePathCallback;
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
+        file = null;
+//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        //创建ChooserIntent
+        Intent intent = new Intent(Intent.ACTION_CHOOSER);
+        //创建相机Intent
+        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        captureIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        file = new File(file.getAbsolutePath(),System.currentTimeMillis() + ".jpg");
+        Uri uri = Uri.fromFile(file);
+        captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        //创建相册Intent
+        Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
+        albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        //将相机Intent以数组形式放入Intent.EXTRA_INITIAL_INTENTS
+        intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{captureIntent});
+        //将相册Intent放入Intent.EXTRA_INTENT
+        intent.putExtra(Intent.EXTRA_INTENT, albumIntent);
+
         Context context = mWebView.getContext();
         if (context instanceof BaseLibActivity){
             ((BaseLibActivity)context).start(Intent.createChooser(intent, "请选择文件"), new IResult() {
+                private Uri uri;
                 @Override
                 public void onActivityResult(ActivityResult result) {
+                    if (file!=null){
+                        try {
+                            String temp = MediaStore.Images.Media.insertImage(mWebView.getContext().getContentResolver(), file.getPath(), file.getName(), "temp");
+                            uri = Uri.parse(temp);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     if (null != fielCallback){
-                        if (result.resultOk()){
+                        if (uri != null){
+                            fielCallback.onReceiveValue(new Uri[]{uri});
+                        }else if (result.resultOk()&&result.getData()!=null){
                             Uri uri = result.getData().getData();
                             fielCallback.onReceiveValue(new Uri[]{uri});
                         }else{
@@ -84,20 +119,47 @@ public class UploadDelegate extends DefWebChromeClient{
 
     public boolean MyopenFileChooser(ValueCallback<Uri> uploadFile, String acceptType, String capture) {
         oldFielCallback = uploadFile;
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        if (!TextUtils.isEmpty(acceptType)) {
-            intent.setType(acceptType);
-        } else {
-            intent.setType("image/*");
-        }
+        file = null;
+//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        //创建ChooserIntent
+        Intent intent = new Intent(Intent.ACTION_CHOOSER);
+        //创建相机Intent
+        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        captureIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        file = new File(file,System.currentTimeMillis() + ".jpg");
+        Uri uri = Uri.fromFile(file);
+        captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        //创建相册Intent
+        Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
+        albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+
+        //将相机Intent以数组形式放入Intent.EXTRA_INITIAL_INTENTS
+        intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{captureIntent});
+        //将相册Intent放入Intent.EXTRA_INTENT
+        intent.putExtra(Intent.EXTRA_INTENT, albumIntent);
+
+
         Context context = mWebView.getContext();
         if (context instanceof BaseLibActivity){
             ((BaseLibActivity)context).start(Intent.createChooser(intent, "请选择文件"), new IResult() {
+                private Uri uri;
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    if (null != fielCallback){
-                        if (result.resultOk()){
+                    if (file!=null){
+                        try {
+                            String temp = MediaStore.Images.Media.insertImage(mWebView.getContext().getContentResolver(), file.getPath(), file.getName(), "temp");
+                            uri = Uri.parse(temp);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (null != oldFielCallback){
+                        if (uri!=null){
+                            oldFielCallback.onReceiveValue(uri);
+                        }else if (result.resultOk()&&result.getData()!=null){
                             Uri uri = result.getData().getData();
                             oldFielCallback.onReceiveValue(uri);
                         }else{

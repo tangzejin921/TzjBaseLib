@@ -9,11 +9,14 @@ import android.widget.FrameLayout;
 
 import com.tzj.baselib.chain.activity.BaseLibActivity;
 import com.tzj.baselib.demo.R;
+import com.tzj.baselib.refresh.GifHeader;
 import com.tzj.baselib.webview.TzjWebView;
 
 
 public class MainActivity extends BaseLibActivity {
-
+    static {
+        GifHeader.init();
+    }
     private TzjWebView webView;
     private ViewPager viewPager;
     private BaseLibFragmentAdapter adapter;

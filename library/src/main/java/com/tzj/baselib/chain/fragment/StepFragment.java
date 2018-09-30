@@ -1,6 +1,7 @@
 package com.tzj.baselib.chain.fragment;
 
-import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.tzj.baselib.R;
 import com.tzj.baselib.chain.IStep;
 
@@ -9,16 +10,17 @@ import com.tzj.baselib.chain.IStep;
  */
 public class StepFragment extends ActivityFragment implements IStep {
 
-    private SwipeToLoadLayout mLoadLayout;
+    private SmartRefreshLayout mRefreshLayout;
 
-    protected SwipeToLoadLayout getLoadLayout(){
-        if (mLoadLayout==null && mRootView!=null){
-            mLoadLayout = mRootView.findViewById(R.id.loadLayout);
-            if (mLoadLayout!=null){
-                mLoadLayout.setOnRefreshListener(this);
+    protected SmartRefreshLayout getLoadLayout() {
+        if (mRefreshLayout == null && mRootView != null) {
+            mRefreshLayout = mRootView.findViewById(R.id.refreshLayout);
+            if (mRefreshLayout != null) {
+                mRefreshLayout.setOnRefreshListener(this);
+                mRefreshLayout.setOnLoadMoreListener(this);
             }
         }
-        return mLoadLayout;
+        return mRefreshLayout;
     }
 
     @Override
@@ -29,9 +31,9 @@ public class StepFragment extends ActivityFragment implements IStep {
     @Override
     public void refresh() {
         super.refresh();
-        if (getLoadLayout()!=null){
-            mLoadLayout.setRefreshing(true);
-        }else{
+        if (getLoadLayout() != null) {
+            mRefreshLayout.autoRefresh();
+        } else {
             showProgress();
             onRefresh();
         }
@@ -39,16 +41,26 @@ public class StepFragment extends ActivityFragment implements IStep {
 
     @Override
     public void loadMore() {
-        if (getLoadLayout()!=null){
-            mLoadLayout.setLoadingMore(true);
-        }else{
+        if (getLoadLayout() != null) {
+            mRefreshLayout.autoLoadMore();
+        } else {
             onLoadMore();
         }
     }
 
     @Override
+    public final void onRefresh(RefreshLayout refreshLayout) {
+        onRefresh();
+    }
+
+    @Override
     public void onRefresh() {
         loadFinish();
+    }
+
+    @Override
+    public final void onLoadMore(RefreshLayout refreshLayout) {
+        onLoadMore();
     }
 
     @Override
@@ -58,10 +70,10 @@ public class StepFragment extends ActivityFragment implements IStep {
 
     @Override
     public void loadFinish() {
-        if (getLoadLayout()!=null){
-            mLoadLayout.setRefreshing(false);
-            mLoadLayout.setLoadingMore(false);
-        }else{
+        if (getLoadLayout() != null) {
+            mRefreshLayout.finishRefresh();
+            mRefreshLayout.finishLoadMore();
+        } else {
             dismissProgress();
         }
     }

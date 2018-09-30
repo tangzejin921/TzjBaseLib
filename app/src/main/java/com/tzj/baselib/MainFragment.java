@@ -25,7 +25,7 @@ public class MainFragment extends BaseLibFragment {
     @Override
     public void initView() {
         super.initView();
-        mRecyclerView = findViewById(R.id.swipe_target);
+        mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLineLayoutManager();
         mRecyclerView.setViewType(R.layout.item_main,StringHolder.class);
         mRecyclerView.setList(list);

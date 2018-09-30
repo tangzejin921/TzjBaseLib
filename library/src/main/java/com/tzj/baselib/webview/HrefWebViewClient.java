@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.webkit.WebView;
 
+/**
+ * 跳转拦截处理
+ */
 public class HrefWebViewClient extends DefWebViewClient{
 
     @Override

@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.tzj.baselib.chain.activity.BaseLibActivity;
 import com.tzj.baselib.demo.R;
@@ -36,9 +35,7 @@ public class MainActivity extends BaseLibActivity {
         super.initView();
         viewPager = findViewById(R.id.viewPagers);
         webView = findViewById(R.id.webView);
-
-        webView.setCanOneKeyBack(false);
-        webView.loadUrl("https://www.baidu.com");
+        webView.loadUrl("https://www.baidu.com/");
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

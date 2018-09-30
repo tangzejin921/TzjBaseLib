@@ -6,8 +6,9 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 
 /**
+ *
  */
-public class DefWebChromeClient extends WebChromeClient{
+public abstract class DefWebChromeClient extends WebChromeClient{
     protected TzjWebView mWebView;
 
     public void setmWebView(TzjWebView mWebView) {

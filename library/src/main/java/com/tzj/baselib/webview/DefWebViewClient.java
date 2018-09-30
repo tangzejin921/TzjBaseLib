@@ -5,7 +5,7 @@ import android.webkit.WebViewClient;
 
 /**
  */
-public class DefWebViewClient extends WebViewClient{
+public abstract class DefWebViewClient extends WebViewClient{
 
     protected TzjWebView mWebView;
 

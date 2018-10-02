@@ -1,13 +1,14 @@
-package com.tzj.baselib;
+package com.tzj.baselib.dia;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.tzj.baselib.R;
 
 
-public class LoadingDialog extends BaseDialog{
+public class LoadingDialog extends BaseDialog {
     public LoadingDialog(Context context) {
         super(context);
     }

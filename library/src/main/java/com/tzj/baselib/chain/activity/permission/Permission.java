@@ -25,7 +25,11 @@ public abstract class Permission {
     public abstract void requestPermissions(Activity act, CallBack callBack, List<String> lists);
 
     public static abstract class CallBack {
-        public abstract void ok();
+        public abstract void accept();
+        public void refuse(){
+        }
+        public void end(){
+        }
     }
 
 }

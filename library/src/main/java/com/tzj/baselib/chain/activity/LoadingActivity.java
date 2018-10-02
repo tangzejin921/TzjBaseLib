@@ -1,19 +1,19 @@
 package com.tzj.baselib.chain.activity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 
-import com.tzj.baselib.LoadingDialog;
-import com.tzj.baselib.chain.activity.start.StartActivity;
+import com.tzj.baselib.dia.BaseDialog;
+import com.tzj.baselib.dia.DefaultCreateDialog;
+import com.tzj.baselib.dia.LoadingDialog;
 
 /**
  * 有加载中，和 Toast
  */
-public class LoadingActivity extends StartActivity {
+public class LoadingActivity extends SelectPicActivity {
     private static DefaultCreateDialog createDialog = new DefaultCreateDialog() {
         @Override
-        public Dialog createDialog(Context ctx) {
+        public BaseDialog createDialog(Context ctx) {
             return new LoadingDialog(ctx);
         }
     };
@@ -21,7 +21,7 @@ public class LoadingActivity extends StartActivity {
         LoadingActivity.createDialog = createDialog;
     }
 
-    private Dialog dialog;
+    private BaseDialog dialog;
     private volatile Integer number = 0;
 
     public void showProgress() {
@@ -31,8 +31,7 @@ public class LoadingActivity extends StartActivity {
                 dialog = createDialog.createDialog(this);
             }
             if (!dialog.isShowing()){
-                dialog.setCancelable(false);
-                dialog.show();
+                dialog.show(false);
             }
             ++number;
         }
@@ -60,10 +59,4 @@ public class LoadingActivity extends StartActivity {
             toast(r+"");
         }
     }
-
-
-    public interface DefaultCreateDialog{
-        Dialog createDialog(Context ctx);
-    }
-
 }

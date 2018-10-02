@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--sdCard 文件目录-->
+    <string name="company">Tzj</string>
+    <string name="app">@string/app_name</string>
+
+    
+</resources>

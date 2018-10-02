@@ -1,4 +1,4 @@
-package com.tzj.baselib.webview;
+package com.tzj.baselib.webview.delegate;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,7 +9,7 @@ import android.webkit.WebView;
 /**
  * 跳转拦截处理
  */
-public class HrefWebViewClient extends DefWebViewClient{
+public class HrefWebViewClient extends DefWebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -38,7 +38,7 @@ public class HrefWebViewClient extends DefWebViewClient{
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 mWebView.getContext().startActivity(intent);
             } else {//todo 这里如果是支付
-                return super.shouldOverrideUrlLoading(view, mWebView.currentUrl = url);
+                return super.shouldOverrideUrlLoading(view, mWebView.setUrl(url));
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -14,6 +14,13 @@ import android.webkit.DownloadListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.tzj.baselib.webview.delegate.DefWebChromeClient;
+import com.tzj.baselib.webview.delegate.DefWebViewClient;
+import com.tzj.baselib.webview.delegate.FullscreenDelegate;
+import com.tzj.baselib.webview.delegate.HrefWebViewClient;
+import com.tzj.baselib.webview.delegate.LoadingProgressDelegate;
+import com.tzj.baselib.webview.delegate.UploadDelegate;
+
 public class TzjWebView extends WebView {
     private Activity mActivity;
     private WebViewClientDelegate webViewClient = new WebViewClientDelegate(this);
@@ -139,6 +146,9 @@ public class TzjWebView extends WebView {
         return originalUrl;
     }
 
+    public String setUrl(String url){
+        return currentUrl = url;
+    }
     @Override
     public String getUrl() {
         return currentUrl;

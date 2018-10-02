@@ -1,5 +1,7 @@
 package com.tzj.baselib.webview;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -16,6 +18,11 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
+
+import com.tzj.baselib.chain.activity.BaseLibActivity;
+import com.tzj.baselib.chain.activity.permission.Permission;
+import com.tzj.baselib.chain.activity.permission.PermissionActivity;
+import com.tzj.baselib.webview.delegate.DefWebChromeClient;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -315,15 +322,34 @@ public final class WebChromeClientDelegate extends WebChromeClient {
 
     @Override
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback,
-                                     FileChooserParams fileChooserParams) {
-        Iterator<DefWebChromeClient> iterator = mList.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().onShowFileChooser(webView, filePathCallback, fileChooserParams)){
-                return true;
-            }
+    public boolean onShowFileChooser(final WebView webView, final ValueCallback<Uri[]> filePathCallback,
+                                     final FileChooserParams fileChooserParams) {
+        Context context = webView.getContext();
+        if (context instanceof PermissionActivity){
+            ((PermissionActivity) context).openPermission()
+                    .add(Manifest.permission.CAMERA)
+                    .add(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .call(new Permission.CallBack() {
+                        @Override
+                        public void accept() {
+                            Iterator<DefWebChromeClient> iterator = mList.iterator();
+                            while (iterator.hasNext()) {
+                                if (iterator.next().onShowFileChooser(webView, filePathCallback, fileChooserParams)){
+                                    break;
+                                }
+                            }
+                        }
+                        @Override
+                        public void refuse() {
+                            super.refuse();
+                            filePathCallback.onReceiveValue(null);
+                        }
+                    });
+            return true;
+        }else{
+            return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
         }
-        return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
     }
 
     //  Android < 3.0
@@ -338,14 +364,33 @@ public final class WebChromeClientDelegate extends WebChromeClient {
     public void openFileChooser(ValueCallback<Uri> uploadFile, String acceptType, String capture) {
         MyopenFileChooser(uploadFile, acceptType, capture);
     }
-    public boolean MyopenFileChooser(ValueCallback<Uri> uploadFile, String acceptType, String capture) {
-        Iterator<DefWebChromeClient> iterator = mList.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().MyopenFileChooser(uploadFile,acceptType,capture)){
-                return true;
-            }
+    public boolean MyopenFileChooser(final ValueCallback<Uri> uploadFile,final String acceptType, final String capture) {
+        Context context = mWebView.getContext();
+        if (context instanceof PermissionActivity){
+            ((PermissionActivity) context).openPermission()
+                    .add(Manifest.permission.CAMERA)
+                    .add(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .call(new Permission.CallBack() {
+                        @Override
+                        public void accept() {
+                            Iterator<DefWebChromeClient> iterator = mList.iterator();
+                            while (iterator.hasNext()) {
+                                if (iterator.next().MyopenFileChooser(uploadFile,acceptType,capture)){
+                                    break;
+                                }
+                            }
+                        }
+                        @Override
+                        public void refuse() {
+                            super.refuse();
+                            uploadFile.onReceiveValue(null);
+                        }
+                    });
+            return true;
+        }else{
+            return false;
         }
-        return false;
     }
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
         Iterator<DefWebChromeClient> iterator = mList.iterator();

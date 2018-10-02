@@ -1,13 +1,15 @@
-package com.tzj.baselib.webview;
+package com.tzj.baselib.webview.delegate;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import com.tzj.baselib.webview.TzjWebView;
+
 /**
  * 加载进度
  */
-public class LoadingProgressDelegate extends DefWebChromeClient{
+public class LoadingProgressDelegate extends DefWebChromeClient {
     //进度条
     private View progress;
     @Override

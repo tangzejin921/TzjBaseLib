@@ -1,4 +1,4 @@
-package com.tzj.baselib.webview;
+package com.tzj.baselib.webview.delegate;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.widget.FrameLayout;
 /**
  * 全屏播放
  */
-public class FullscreenDelegate extends DefWebChromeClient{
+public class FullscreenDelegate extends DefWebChromeClient {
     /**
      * 全屏时视频加载view
       */

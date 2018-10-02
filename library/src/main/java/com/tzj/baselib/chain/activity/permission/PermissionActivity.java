@@ -37,7 +37,7 @@ public class PermissionActivity extends RuleActivity {
                         }
                     }
                 }
-                callBack.ok();
+                callBack.accept();
             }
         };
     }
@@ -62,10 +62,12 @@ public class PermissionActivity extends RuleActivity {
         }
         if (rememberDenides.size() > 0) {
             onPermissionDead(rememberDenides);
+            remove.refuse();
         } else if (denides.size() > 0) {
             onPermissionCancle(denides);
+            remove.refuse();
         } else {
-            remove.ok();
+            remove.accept();
         }
     }
 

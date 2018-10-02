@@ -1,12 +1,15 @@
-package com.tzj.baselib;
+package com.tzj.baselib.dia;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Point;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.tzj.baselib.R;
 
 
 public abstract class BaseDialog extends Dialog {
@@ -109,4 +112,8 @@ public abstract class BaseDialog extends Dialog {
         super.onStop();
     }
 
+    public BaseDialog setDismissListener(@Nullable OnDismissListener listener) {
+        super.setOnDismissListener(listener);
+        return this;
+    }
 }

@@ -1,6 +1,8 @@
-package com.tzj.baselib.webview;
+package com.tzj.baselib.webview.delegate;
 
 import android.webkit.WebViewClient;
+
+import com.tzj.baselib.webview.TzjWebView;
 
 
 /**

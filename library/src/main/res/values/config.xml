@@ -4,5 +4,11 @@
     <string name="company">Tzj</string>
     <string name="app">@string/app_name</string>
 
-    
+    <!--app 相关-->
+    <string name="hosCode">0</string>
+    <string name="hosName">医院</string>
+    <string name="areaCode">0</string>
+    <string name="productId">0</string>
+    <string name="aliyun_key">0</string>
+    <string name="aliyun_secret">0</string>
 </resources>

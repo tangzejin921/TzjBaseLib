@@ -1,6 +1,7 @@
 package com.tzj.baselib.utils;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -16,6 +17,8 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.telephony.TelephonyManager;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
@@ -23,12 +26,12 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.Random;
 import java.util.UUID;
 
 /**
- * Created by tzj on 2018/6/5.
+ * 系统相关
  */
-
 public class UtilSystem {
     /**
      * 得到当前进程名
@@ -45,6 +48,8 @@ public class UtilSystem {
     }
     /**
      * 获取手机IMEI码
+     * <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+     * 6.0 需要权限
      */
     public static String getPhoneIMEI(Context ctx) {
         TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
@@ -59,6 +64,10 @@ public class UtilSystem {
 //            throw new RuntimeException("请获取权限");
             return "000000000000000";
         }
+//        // If running on an emulator
+//        if (deviceId == null || deviceId.trim().length() == 0 || deviceId.matches("0+")) {
+//            deviceId = (new StringBuilder("EMU")).append((new Random(System.currentTimeMillis())).nextLong()).toString();
+//        }
         return tm.getDeviceId();
     }
     /**
@@ -87,6 +96,7 @@ public class UtilSystem {
     }
     /**
      * 得到ip
+     * <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
      */
     public static String intToIp(Context ctx) {
         WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
@@ -95,31 +105,30 @@ public class UtilSystem {
     }
 
     /**
-     * 取得AppKey
-     *
-     * @param context
-     * @return
-     * @return: String
+     * 读取mainfast文件内容 注意"_",应为数字字符串会被转成double
      */
     public static String getAppKey(Context context, String kayName) {
         Bundle metaData = null;
-        String appKey = null;
         try {
             ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
             if (null != ai)
                 metaData = ai.metaData;
             if (null != metaData) {
-                appKey = metaData.getString(kayName);
-                if ((null == appKey) || appKey.length() < 6) {//大于6位
-                    appKey = null;
+                String appKey = metaData.getString(kayName);
+                if (metaData != null) {
+                    Object keyO = metaData.get(kayName);
+                    return keyO.toString().replace("_","");
                 }
             }
         } catch (PackageManager.NameNotFoundException e) {
             throw new RuntimeException("获取签名失败:"+e.getMessage());
         }
-        return appKey;
+        return null;
     }
 
+    /**
+     * 生成 uuid ，每次不一样的
+     */
     public static String getUUID() {
         UUID uuid = UUID.randomUUID();
         String str = uuid.toString();
@@ -127,6 +136,9 @@ public class UtilSystem {
         return str;
     }
 
+    /**
+     * 跳转打电话界面
+     */
     public static void call(Context ctx,String phone){
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -143,7 +155,7 @@ public class UtilSystem {
         ctx.startActivity(intent);
     }
     /**
-     * 通知
+     * 跳转通知设置界面
      */
     public static boolean openNotifi(final Context ctx){
         NotificationManagerCompat manager = NotificationManagerCompat.from(ctx);
@@ -189,5 +201,28 @@ public class UtilSystem {
         CookieSyncManager.getInstance().stopSync();
     }
 
+    /**
+     * 设置当前activity的屏幕亮度
+     *
+     * @param paramFloat 0-1.0f
+     * @param activity   需要调整亮度的activity
+     */
+    public static void setActivityBrightness(float paramFloat, Activity activity) {
+        Window localWindow = activity.getWindow();
+        WindowManager.LayoutParams params = localWindow.getAttributes();
+        params.screenBrightness = paramFloat;
+        localWindow.setAttributes(params);
+    }
 
+    /**
+     * 获取当前activity的屏幕亮度
+     *
+     * @param activity 当前的activity对象
+     * @return 亮度值范围为0-0.1f，如果为-1.0，则亮度与全局同步。
+     */
+    public static float getActivityBrightness(Activity activity) {
+        Window localWindow = activity.getWindow();
+        WindowManager.LayoutParams params = localWindow.getAttributes();
+        return params.screenBrightness;
+    }
 }

@@ -7,6 +7,9 @@ import android.support.v4.content.FileProvider;
 
 import java.io.File;
 
+/**
+ * uri 相关
+ */
 public class UtilUri {
     /**
      * 适配 FileProvider

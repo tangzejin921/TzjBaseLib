@@ -2,6 +2,7 @@ package com.tzj.baselib.chain;
 
 import android.app.Application;
 
+import com.tzj.baselib.env.AppEnv;
 import com.tzj.baselib.utils.UtilSystem;
 
 public abstract class TzjLibApplication extends Application{
@@ -19,7 +20,7 @@ public abstract class TzjLibApplication extends Application{
      * 主进程要自行的东西
      */
     protected void mainProcessOnCreate() {
-
+        AppEnv.init(this);
     }
     /**
      * 其他进程要执行的内容

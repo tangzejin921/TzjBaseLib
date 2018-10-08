@@ -1,4 +1,4 @@
-package com.tzj.baselib.refresh;
+package com.tzj.baselib.widget.refresh;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

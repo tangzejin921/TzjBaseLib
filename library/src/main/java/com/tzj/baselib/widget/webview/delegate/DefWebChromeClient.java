@@ -1,11 +1,11 @@
-package com.tzj.baselib.webview.delegate;
+package com.tzj.baselib.widget.webview.delegate;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 
-import com.tzj.baselib.webview.TzjWebView;
+import com.tzj.baselib.widget.webview.TzjWebView;
 
 /**
  *

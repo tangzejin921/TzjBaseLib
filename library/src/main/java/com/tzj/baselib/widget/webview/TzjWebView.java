@@ -1,4 +1,4 @@
-package com.tzj.baselib.webview;
+package com.tzj.baselib.widget.webview;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -14,12 +14,12 @@ import android.webkit.DownloadListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.tzj.baselib.webview.delegate.DefWebChromeClient;
-import com.tzj.baselib.webview.delegate.DefWebViewClient;
-import com.tzj.baselib.webview.delegate.FullscreenDelegate;
-import com.tzj.baselib.webview.delegate.HrefWebViewClient;
-import com.tzj.baselib.webview.delegate.LoadingProgressDelegate;
-import com.tzj.baselib.webview.delegate.UploadDelegate;
+import com.tzj.baselib.widget.webview.delegate.DefWebChromeClient;
+import com.tzj.baselib.widget.webview.delegate.DefWebViewClient;
+import com.tzj.baselib.widget.webview.delegate.FullscreenDelegate;
+import com.tzj.baselib.widget.webview.delegate.HrefWebViewClient;
+import com.tzj.baselib.widget.webview.delegate.LoadingProgressDelegate;
+import com.tzj.baselib.widget.webview.delegate.UploadDelegate;
 
 public class TzjWebView extends WebView {
     private Activity mActivity;

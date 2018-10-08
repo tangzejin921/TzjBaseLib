@@ -1,10 +1,10 @@
-package com.tzj.baselib.webview.delegate;
+package com.tzj.baselib.widget.webview.delegate;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
-import com.tzj.baselib.webview.TzjWebView;
+import com.tzj.baselib.widget.webview.TzjWebView;
 
 /**
  * 加载进度

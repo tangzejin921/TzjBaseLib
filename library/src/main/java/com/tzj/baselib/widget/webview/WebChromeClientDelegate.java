@@ -1,4 +1,4 @@
-package com.tzj.baselib.webview;
+package com.tzj.baselib.widget.webview;
 
 import android.Manifest;
 import android.content.Context;
@@ -19,10 +19,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
 
-import com.tzj.baselib.chain.activity.BaseLibActivity;
 import com.tzj.baselib.chain.activity.permission.Permission;
 import com.tzj.baselib.chain.activity.permission.PermissionActivity;
-import com.tzj.baselib.webview.delegate.DefWebChromeClient;
+import com.tzj.baselib.widget.webview.delegate.DefWebChromeClient;
 
 import java.util.ArrayList;
 import java.util.Iterator;

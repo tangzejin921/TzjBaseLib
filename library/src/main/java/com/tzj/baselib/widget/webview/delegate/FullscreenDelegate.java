@@ -1,4 +1,4 @@
-package com.tzj.baselib.webview.delegate;
+package com.tzj.baselib.widget.webview.delegate;
 
 import android.app.Activity;
 import android.content.Context;

@@ -8,8 +8,8 @@ import android.view.View;
 
 import com.tzj.baselib.chain.activity.BaseLibActivity;
 import com.tzj.baselib.demo.R;
-import com.tzj.baselib.refresh.GifHeader;
-import com.tzj.baselib.webview.TzjWebView;
+import com.tzj.baselib.widget.refresh.GifHeader;
+import com.tzj.baselib.widget.webview.TzjWebView;
 
 
 public class MainActivity extends BaseLibActivity {

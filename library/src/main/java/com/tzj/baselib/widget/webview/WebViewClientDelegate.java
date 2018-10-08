@@ -1,4 +1,4 @@
-package com.tzj.baselib.webview;
+package com.tzj.baselib.widget.webview;
 
 import android.graphics.Bitmap;
 import android.net.http.SslError;
@@ -15,7 +15,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.tzj.baselib.webview.delegate.DefWebViewClient;
+import com.tzj.baselib.widget.webview.delegate.DefWebViewClient;
 
 import java.util.ArrayList;
 import java.util.Iterator;

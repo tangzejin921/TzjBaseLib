@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.tzj.baselib.chain.adapter.BaseLibFragmentAdapter;
 import com.tzj.baselib.chain.activity.BaseLibActivity;
 import com.tzj.baselib.demo.R;
 import com.tzj.baselib.widget.refresh.GifHeader;

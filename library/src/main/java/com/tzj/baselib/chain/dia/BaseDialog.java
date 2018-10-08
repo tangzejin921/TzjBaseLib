@@ -1,4 +1,4 @@
-package com.tzj.baselib.dia;
+package com.tzj.baselib.chain.dia;
 
 import android.app.Dialog;
 import android.content.Context;

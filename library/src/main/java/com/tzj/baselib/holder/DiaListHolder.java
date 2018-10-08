@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.tzj.baselib.R;
-import com.tzj.baselib.dia.ListDialog;
+import com.tzj.baselib.chain.dia.ListDialog;
 import com.tzj.recyclerview.adapter.TzjAdapter;
 import com.tzj.recyclerview.holder.TzjViewHolder;
 

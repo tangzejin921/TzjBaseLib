@@ -14,9 +14,9 @@ import com.tzj.baselib.chain.activity.permission.Permission;
 import com.tzj.baselib.chain.activity.start.ActivityResult;
 import com.tzj.baselib.chain.activity.start.IResult;
 import com.tzj.baselib.chain.activity.start.StartActivity;
-import com.tzj.baselib.dia.BaseDialog;
-import com.tzj.baselib.dia.DefaultCreateDialog;
-import com.tzj.baselib.dia.ListDialog;
+import com.tzj.baselib.chain.dia.BaseDialog;
+import com.tzj.baselib.chain.dia.DefaultCreateDialog;
+import com.tzj.baselib.chain.dia.ListDialog;
 import com.tzj.baselib.utils.UtilUri;
 import com.tzj.recyclerview.adapter.TzjAdapter;
 

@@ -1,13 +1,11 @@
-package com.tzj.baselib.dia;
+package com.tzj.baselib.chain.dia;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.tzj.baselib.R;

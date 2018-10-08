@@ -3,9 +3,9 @@ package com.tzj.baselib.chain.activity;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 
-import com.tzj.baselib.dia.BaseDialog;
-import com.tzj.baselib.dia.DefaultCreateDialog;
-import com.tzj.baselib.dia.LoadingDialog;
+import com.tzj.baselib.chain.dia.BaseDialog;
+import com.tzj.baselib.chain.dia.DefaultCreateDialog;
+import com.tzj.baselib.chain.dia.LoadingDialog;
 
 /**
  * 有加载中，和 Toast

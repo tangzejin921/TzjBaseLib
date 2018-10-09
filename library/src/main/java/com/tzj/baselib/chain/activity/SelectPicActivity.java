@@ -1,13 +1,19 @@
 package com.tzj.baselib.chain.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 
 import com.tzj.baselib.chain.activity.permission.Permission;
@@ -148,19 +154,46 @@ public class SelectPicActivity extends StartActivity {
     /**
      * 截屏
      */
-    public void screenCapture() {
+    public void screenCapture(final Result res) {
         openPermission()
-                .add(Manifest.permission.CAMERA)
-                .add(Manifest.permission.READ_EXTERNAL_STORAGE)
                 .add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .call(new Permission.CallBack() {
                     @Override
                     public void accept() {
-
+                        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                //找到当前页面的跟布局
+                                View view = getWindow().getDecorView().getRootView();
+                                //设置缓存
+                                view.setDrawingCacheEnabled(true);
+                                view.buildDrawingCache();
+                                //从缓存中获取当前屏幕的图片
+                                Bitmap bitmap = view.getDrawingCache();
+                                try {
+                                    String temp = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, Environment.DIRECTORY_DCIM, "temp");
+                                    final Uri uri = Uri.parse(temp);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            res.ok(uri);
+                                        }
+                                    });
+                                }catch (Exception e){
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            res.err();
+                                        }
+                                    });
+                                }finally {
+                                    bitmap.recycle();
+                                }
+                            }
+                        });
                     }
                 });
     }
-
 
     public static abstract class Result implements IResult {
         private File file;
@@ -175,24 +208,35 @@ public class SelectPicActivity extends StartActivity {
         }
 
         @Override
-        public void onActivityResult(ActivityResult result) {
-            Uri uri = null;
-            if (file != null) {//相机
-                try {
-                    //todo 这里图片可能会挺大的，而且会出现两张一样的
-                    String temp = MediaStore.Images.Media.insertImage(resolver, file.getPath(), file.getName(), "temp");
-                    uri = Uri.parse(temp);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+        public void onActivityResult(final ActivityResult result) {
+            AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+                @Override
+                public void run() {
+                    Uri uri = null;
+                    if (file != null) {//相机
+                        try {
+                            //todo 这里图片可能会挺大的，而且会出现两张一样的
+                            String temp = MediaStore.Images.Media.insertImage(resolver, file.getPath(), file.getName(), "temp");
+                            uri = Uri.parse(temp);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (result.resultOk() && result.getData() != null) {//选择
+                        uri = result.getData().getData();
+                    }
+                    final Uri temp = uri;
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (temp != null) {
+                                ok(temp);
+                            } else {
+                                err();
+                            }
+                        }
+                    });
                 }
-            } else if (result.resultOk() && result.getData() != null) {//选择
-                uri = result.getData().getData();
-            }
-            if (uri != null) {
-                ok(uri);
-            } else {
-                err();
-            }
+            });
         }
 
         public abstract void ok(Uri uri);

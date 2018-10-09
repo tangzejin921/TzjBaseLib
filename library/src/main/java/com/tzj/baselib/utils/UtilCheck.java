@@ -1,6 +1,8 @@
 package com.tzj.baselib.utils;
 
 
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 
 import java.text.ParseException;
@@ -8,27 +10,86 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 验证,
  * 如：手机号，身份证，邮箱
  */
 public class UtilCheck {
+    private final static Pattern emailer = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
+    private final static Pattern phone = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(17[^4,\\D])|(18[0,5-9]))\\d{8}$");
+    private final static Pattern p = Pattern.compile("^[\u4E00-\u9FA50-9a-zA-Z_-]{0,}$");
+
+    /**
+     * 判断是不是一个合法的电子邮件地址
+     */
+    public static boolean isEmail(CharSequence email) {
+        return !TextUtils.isEmpty(email) && emailer.matcher(email).matches();
+    }
     /**
      * 检查手机号码是否有效
      */
-    public static boolean isPhone(String num) {
-        if(TextUtils.isEmpty(num)){
+    public static boolean isPhone(CharSequence phoneNum) {
+        return !TextUtils.isEmpty(phoneNum) && phone.matcher(phoneNum).matches();
+    }
+    /**
+     * 判断是否在Unicode编码里
+     */
+    public static boolean isChineseCharacter(String chineseStr) {
+        char[] charArray = chineseStr.toCharArray();
+        for (char aCharArray : charArray) {
+            // 是否是Unicode编码,除了"�"这个字符.这个字符要另外处理
+            if ((aCharArray >= '\u0000' && aCharArray < '\uFFFD') || ((aCharArray > '\uFFFD' && aCharArray < '\uFFFF'))) {
+                continue;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+    /**
+     *  判断是否含有"�"这个特殊字符
+     */
+    public static boolean isSpecialCharacter(String str) {
+        // 是"�"这个特殊字符的乱码情况
+        if (str.contains("ï¿½")) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 检查是否为中文
+     */
+    public static boolean checkCN(String str) {
+        if (str == null) {
             return false;
         }
-        boolean value = num.length()==11?true:false; //只验证手机位数，不验证有效性
-        return value;
+        String regEx = "[\u4e00-\u9fa5]{1,}";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.matches();
+    }
+
+    /**
+     * 检查是否为字母
+     */
+    public static boolean checkChar(String str) {
+        if (str == null) {
+            return false;
+        }
+        String regEx = "[a-zA-Z]{1,}";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.matches();
     }
 
     /**
      * 身份证
      */
-    public static class ID{
+    public static class ID {
 
         private static String _codeError;
 
@@ -98,9 +159,10 @@ public class UtilCheck {
             }
             return true;
         }
+
         /**
-         *  验证身份证位数,15位和18位身份证
-          */
+         * 验证身份证位数,15位和18位身份证
+         */
         public static boolean verifyLength(String code) {
             int length = code.length();
             if (length == 15 || length == 18) {
@@ -110,9 +172,10 @@ public class UtilCheck {
                 return false;
             }
         }
+
         /**
-         *  判断地区码
-          */
+         * 判断地区码
+         */
         public static boolean verifyAreaCode(String code) {
             String areaCode = code.substring(0, 2);
             // Element child= _areaCodeElement.getChild("_"+areaCode);
@@ -126,7 +189,7 @@ public class UtilCheck {
 
         /**
          * 判断月份和日期
-          */
+         */
         public static boolean verifyBirthdayCode(String code) {
             // 验证月份
             String month = code.substring(10, 12);
@@ -174,7 +237,7 @@ public class UtilCheck {
 
         /**
          * 验证身份除了最后位其他的是否包含字母
-          */
+         */
         public static boolean containsAllNumber(String code) {
             String str = "";
             if (code.length() == 15) {
@@ -194,7 +257,7 @@ public class UtilCheck {
 
         /**
          * 15位转18位身份证
-          */
+         */
         public static String uptoeighteen(String fifteencardid) {
             String eightcardid = fifteencardid.substring(0, 6);
             eightcardid = eightcardid + "19";
@@ -205,7 +268,7 @@ public class UtilCheck {
 
         /**
          * 验证18位校验码,校验码采用ISO 7064：1983，MOD 11-2 校验码系统
-          */
+         */
         public static boolean verifyMOD(String code) {
             String verify = code.substring(17, 18);
             if ("x".equals(verify)) {
@@ -226,7 +289,7 @@ public class UtilCheck {
 
         /**
          * 获得校验位
-          */
+         */
         public static String getVerify(String eightcardid) {
             int remaining = 0;
 
@@ -265,32 +328,32 @@ public class UtilCheck {
         }
 
         /**
-         *	生日 yyyy-MM-dd
+         * 生日 yyyy-MM-dd
          */
-        public static String getBirthday(String idNo){
-            if (TextUtils.isEmpty(idNo)){
+        public static String getBirthday(String idNo) {
+            if (TextUtils.isEmpty(idNo)) {
                 return "";
             }
-            String year="";
-            String month="";
+            String year = "";
+            String month = "";
             String day = "";
-            if (idNo.length()<18){//旧版身份证
-                year = "19"+idNo.substring(6, 8);
+            if (idNo.length() < 18) {//旧版身份证
+                year = "19" + idNo.substring(6, 8);
                 month = idNo.substring(8, 10);
                 day = idNo.substring(10, 12);
-            }else{
+            } else {
                 year = idNo.substring(6, 10);
                 month = idNo.substring(10, 12);
                 day = idNo.substring(12, 14);
             }
-            return year+"-"+month+"-"+day;
+            return year + "-" + month + "-" + day;
         }
 
         /**
-         *  年龄
+         * 年龄
          */
-        public static int getAge(String idNo){
-            if (TextUtils.isEmpty(idNo)){
+        public static int getAge(String idNo) {
+            if (TextUtils.isEmpty(idNo)) {
                 return 0;
             }
             String birthday = getBirthday(idNo);
@@ -305,14 +368,14 @@ public class UtilCheck {
             Calendar d = Calendar.getInstance();
             d.setTime(parse);
 
-            int y = c.get(Calendar.YEAR)-d.get(Calendar.YEAR);
-            int dt = c.get(Calendar.DAY_OF_YEAR)-d.get(Calendar.DAY_OF_YEAR);
-            if (dt>=0){
-                dt=0;
-            }else{
+            int y = c.get(Calendar.YEAR) - d.get(Calendar.YEAR);
+            int dt = c.get(Calendar.DAY_OF_YEAR) - d.get(Calendar.DAY_OF_YEAR);
+            if (dt >= 0) {
+                dt = 0;
+            } else {
                 dt = -1;
             }
-            return y+dt;
+            return y + dt;
         }
     }
 }

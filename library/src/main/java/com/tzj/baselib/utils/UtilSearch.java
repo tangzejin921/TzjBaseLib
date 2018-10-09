@@ -9,6 +9,7 @@
 //
 ///**
 // * 集合过滤搜素
+// * 需要包 'com.belerweb:pinyin4j:2.5.1'
 // */
 //public class UtilSearch {
 //

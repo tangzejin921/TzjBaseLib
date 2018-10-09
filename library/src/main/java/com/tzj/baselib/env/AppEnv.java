@@ -2,6 +2,7 @@ package com.tzj.baselib.env;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
@@ -17,11 +18,11 @@ public class AppEnv {
     private static Handler mHandler = new Handler();
     private static Toast mToast;
     private static Context appCtx;
-    public static float density;
+    public static DisplayMetrics displayMetrics;
 
     public static void init(Context ctx){
         AppEnv.appCtx = ctx.getApplicationContext();
-        density = ctx.getResources().getDisplayMetrics().density;
+        displayMetrics = ctx.getResources().getDisplayMetrics();
 //        AppEnv.mToast = Toast.makeText(AppEnv.appCtx,"",Toast.LENGTH_LONG);
         AppEnv.mToast = new Toast(AppEnv.appCtx);
         mToast.setGravity(Gravity.CENTER,0,0);

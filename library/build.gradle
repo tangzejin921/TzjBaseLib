@@ -25,6 +25,7 @@ android {
 
 dependencies {
     compileOnly "com.android.support:design:$_supportVersion"
+    compileOnly "com.belerweb:pinyin4j:2.5.1"
     //滑动返回(子类不需要用到)
     implementation 'me.imid.swipebacklayout.lib:library:1.3.0'
     //RecyclerView

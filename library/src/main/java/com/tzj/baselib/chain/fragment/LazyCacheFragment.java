@@ -3,6 +3,7 @@ package com.tzj.baselib.chain.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CloseHandler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,10 +17,24 @@ import android.view.ViewParent;
 public class LazyCacheFragment extends Fragment {
     protected View mRootView;
     protected boolean isInitView;
+    protected CloseHandler mHandler;
 
     protected int layoutId(){
         return 0;
     };
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mHandler = new CloseHandler();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mHandler.close();
+        mHandler = null;
+    }
 
     @Nullable
     @Override

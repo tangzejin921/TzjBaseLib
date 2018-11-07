@@ -3,6 +3,7 @@ package com.tzj.baselib.chain.activity.delegate;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.CloseHandler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +18,10 @@ import java.util.List;
  */
 public class DelegateActivity extends FragmentActivity {
     private List<ActivityDelegate> mList = new ArrayList<>();
+    /**
+     * 界面结束后，他将失效
+     */
+    protected CloseHandler mHandler = new CloseHandler();
 
     public void addDelegate(List<ActivityDelegate> list) {
         list.add(new LogDelegate(this));
@@ -27,7 +32,9 @@ public class DelegateActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addDelegate(mList);
+        if (!savedInstanceState.getBoolean("onSaveInstanceState", false)) {
+            addDelegate(mList);
+        }
         Iterator<ActivityDelegate> iterator = mList.iterator();
         while (iterator.hasNext()) {
             iterator.next().onCreate(savedInstanceState);
@@ -80,6 +87,12 @@ public class DelegateActivity extends FragmentActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("onSaveInstanceState", true);
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         Iterator<ActivityDelegate> iterator = mList.iterator();
@@ -95,6 +108,8 @@ public class DelegateActivity extends FragmentActivity {
         while (iterator.hasNext()) {
             iterator.next().onClear();
         }
+        mHandler.close();
+        mHandler = null;
     }
 
     @Override
@@ -104,6 +119,10 @@ public class DelegateActivity extends FragmentActivity {
         while (iterator.hasNext()) {
             iterator.next().onDestroy();
             iterator.remove();
+        }
+        if (mHandler != null && !mHandler.isClsed()) {
+            mHandler.close();
+            mHandler = null;
         }
     }
 

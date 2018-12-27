@@ -497,7 +497,7 @@ public class UtilBitmap {
         }
 
         @Override
-        public Void call() throws Exception {
+        public Void call() {
             blurIteration(_src, _w, _h, _radius, _totalCores, _coreIndex, _round);
             return null;
         }

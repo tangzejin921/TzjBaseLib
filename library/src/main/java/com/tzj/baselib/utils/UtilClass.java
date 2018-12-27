@@ -138,10 +138,7 @@ public class UtilClass {
         if (type.equals(doubleType)) {
             return true;
         }
-        if (type.equals(dateType)) {
-            return true;
-        }
-        return false;
+        return type.equals(dateType);
     }
 
     /**

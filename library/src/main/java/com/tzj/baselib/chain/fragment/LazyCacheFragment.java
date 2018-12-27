@@ -21,7 +21,7 @@ public class LazyCacheFragment extends Fragment {
 
     protected int layoutId(){
         return 0;
-    };
+    }
 
     @Override
     public void onAttach(Context context) {

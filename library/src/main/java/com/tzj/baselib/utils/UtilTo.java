@@ -41,7 +41,7 @@ public class UtilTo {
      * 不如转成Hex省一半空间
      */
     public static String toASCString(byte[] src){
-        StringBuilder string = new StringBuilder("");
+        StringBuilder string = new StringBuilder();
         if (src == null) return string.toString();
         for (byte aSrc : src) {
             string.append((char) aSrc);

@@ -412,7 +412,7 @@ public class TzjBLE {
 		}
 		try {
 			Class<BluetoothDevice> c = BluetoothDevice.class;
-			Method method = c.getMethod("setPin", new Class[]{byte[].class});
+			Method method = c.getMethod("setPin", byte[].class);
 			method.setAccessible(true);
 			Mlog.running("设置配对pin："+pin);
 			return (Boolean) method.invoke(device, new Object[]{pin.getBytes("UTF-8")});

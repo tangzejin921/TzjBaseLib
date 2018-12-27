@@ -223,11 +223,7 @@ public class UtilDate {
      * 判断是否是闰年
      */
     public static boolean isLeapYear(int year) {
-        if ((year % 4 == 0 && year % 400 != 0) || year % 400 == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return (year % 4 == 0 && year % 400 != 0) || year % 400 == 0;
     }
 
     /**

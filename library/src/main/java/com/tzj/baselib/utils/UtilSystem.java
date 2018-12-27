@@ -1,5 +1,6 @@
 package com.tzj.baselib.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -64,6 +65,9 @@ import com.tzj.baselib.env.AppEnv;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -93,12 +97,29 @@ public class UtilSystem {
     }
 
     /**
-     * 是否为模拟器
+     * 没权限会抛
      */
-    public static boolean isEmulator(Context ctx) {
-        String imei = getPhoneIMEI(ctx);
-        //000000000000000  要是不带电话功能的机子怎么办
-        return imei.startsWith("000") || (Build.MODEL.equals("sdk")) || (Build.MODEL.equals("google_sdk"));
+    @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public static String getDeviceId(Context ctx) throws IOException {
+        File file = Environment.getExternalStorageDirectory();
+        File android = new File(file, ".Android");
+        if (!android.exists()){
+            android.mkdirs();
+        }
+        File uuid = new File(android, "UUID");
+        String uuidStr = null;
+        if (!uuid.exists()){
+            uuid.createNewFile();
+            uuidStr = UUID.randomUUID().toString().replace("-","");
+            FileOutputStream fos = new FileOutputStream(uuid);
+            fos.write(uuidStr.getBytes());
+            fos.close();
+        }else{
+            FileInputStream fis = new FileInputStream(uuid);
+            BufferedReader br = new BufferedReader(new FileReader(uuid));
+            uuidStr = br.readLine();
+        }
+        return uuidStr;
     }
 
     /**
@@ -442,13 +463,9 @@ public class UtilSystem {
         List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
             if (appProcess.processName.equals(context.getPackageName())) {
-                if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
-                    // 后台运行
-                    return true;
-                } else {
-                    // 前台运行
-                    return false;
-                }
+                // 后台运行
+// 前台运行
+                return appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND;
             }
         }
         return false;
@@ -504,11 +521,9 @@ public class UtilSystem {
     private boolean isConnected(Context ctx) {
         ConnectivityManager manager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
-        if (activeNetwork != null && activeNetwork.isConnected()) { // 连接上网络
-            return true;
-        } else {   // 没有连接上
-            return false;
-        }
+        // 连接上网络
+// 没有连接上
+        return activeNetwork != null && activeNetwork.isConnected();
     }
 
     /**
@@ -518,10 +533,7 @@ public class UtilSystem {
     public static boolean isWIFI(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        if (activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-            return true;
-        }
-        return false;
+        return activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
     /**
@@ -759,11 +771,7 @@ public class UtilSystem {
      * 有无相机
      */
     public static boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            return true;
-        } else {
-            return false;
-        }
+        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
     /**
@@ -847,7 +855,7 @@ public class UtilSystem {
         if (add) {
             audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
         } else {
-            audioManager.adjustStreamVolume(audioManager.STREAM_MUSIC, audioManager.ADJUST_LOWER, audioManager.FLAG_SHOW_UI);
+            audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
         }
     }
 

@@ -98,7 +98,7 @@ public class SelectPicActivity extends StartActivity {
                             intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{captureIntent});
                             //将相册Intent放入Intent.EXTRA_INTENT
                             intent.putExtra(Intent.EXTRA_INTENT, albumIntent);
-                            intent.setType("image/*");
+//                            intent.setType("image/*");//这里不能加
 
                             res.setFile(file);
                             res.setResolver(getContentResolver());
@@ -221,7 +221,8 @@ public class SelectPicActivity extends StartActivity {
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
-                    } else if (result.resultOk() && result.getData() != null) {//选择
+                    }
+                    if (result.resultOk() && result.getData() != null) {//选择
                         uri = result.getData().getData();
                     }
                     final Uri temp = uri;

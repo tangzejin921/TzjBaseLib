@@ -347,9 +347,8 @@ public class UtilRSA {
      * @param content    源数据
      * @param privateKey 私钥(BASE64编码)
      * @return
-     * @throws Exception
      */
-    public static String encryptByPrivateKey(String content, String privateKey, String charset) throws Exception {
+    public static String encryptByPrivateKey(String content, String privateKey, String charset) {
 //        byte[] data = content.getBytes(charset);
 //        byte[] bResult = encryptByPrivateKey(data, privateKey);
 //        return encode(bResult);
@@ -363,9 +362,8 @@ public class UtilRSA {
      *
      * @param keyMap 密钥对
      * @return
-     * @throws Exception
      */
-    public static String getPrivateKey(Map<String, Object> keyMap) throws Exception {
+    public static String getPrivateKey(Map<String, Object> keyMap) {
         Key key = (Key) keyMap.get(PRIVATE_KEY);
         return UtilCipher.Base64.encode(key.getEncoded());
     }
@@ -377,9 +375,8 @@ public class UtilRSA {
      *
      * @param keyMap 密钥对
      * @return
-     * @throws Exception
      */
-    public static String getPublicKey(Map<String, Object> keyMap) throws Exception {
+    public static String getPublicKey(Map<String, Object> keyMap) {
         Key key = (Key) keyMap.get(PUBLIC_KEY);
         return UtilCipher.Base64.encode(key.getEncoded());
     }

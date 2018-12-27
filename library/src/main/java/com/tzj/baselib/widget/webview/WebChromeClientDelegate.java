@@ -175,7 +175,7 @@ public final class WebChromeClientDelegate extends WebChromeClient {
         while (iterator.hasNext()) {
             if (iterator.next().onJsBeforeUnload(view, url, message, result)){
                 return true;
-            };
+            }
         }
         return super.onJsBeforeUnload(view, url, message, result);
     }

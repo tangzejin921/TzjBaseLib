@@ -54,10 +54,7 @@ public class UtilCheck {
      */
     public static boolean isSpecialCharacter(String str) {
         // 是"�"这个特殊字符的乱码情况
-        if (str.contains("ï¿½")) {
-            return true;
-        }
-        return false;
+        return str.contains("ï¿½");
     }
 
     /**
@@ -154,10 +151,7 @@ public class UtilCheck {
                 return false;
             }
             // 验证18位校验码,校验码采用ISO 7064：1983，MOD 11-2 校验码系统
-            if (!verifyMOD(eifhteencard)) {
-                return false;
-            }
-            return true;
+            return verifyMOD(eifhteencard);
         }
 
         /**

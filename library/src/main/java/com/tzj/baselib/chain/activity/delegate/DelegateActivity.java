@@ -32,7 +32,8 @@ public class DelegateActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!savedInstanceState.getBoolean("onSaveInstanceState", false)) {
+        //todo 有待验证
+        if (savedInstanceState==null || !savedInstanceState.getBoolean("onSaveInstanceState", false)) {
             addDelegate(mList);
         }
         Iterator<ActivityDelegate> iterator = mList.iterator();

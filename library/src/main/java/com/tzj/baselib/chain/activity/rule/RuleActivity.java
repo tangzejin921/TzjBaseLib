@@ -35,9 +35,7 @@ public class RuleActivity extends DelegateActivity {
         if (component!=null){
             String className = component.getClassName();
             ICheck check = mInterception.get(className);
-            if (check!=null && check.call(this,intent,requestCode)){
-                return true;//拦截了将不会跳转
-            }
+            return check != null && check.call(this, intent, requestCode);
         }
         return false;
     }

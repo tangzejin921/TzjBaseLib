@@ -100,8 +100,8 @@ public class DiscrollView extends ScrollView {
     }
     
     public interface Discrollvable {
-        public void onDiscrollve(float ratio);
-        public void onResetDiscrollve();
+        void onDiscrollve(float ratio);
+        void onResetDiscrollve();
     }
     
 }

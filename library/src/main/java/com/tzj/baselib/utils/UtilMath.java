@@ -224,11 +224,7 @@ public class UtilMath {
      */
     public boolean pointAtSLine(double x,double y,double x1,double y1,double x2,double y2){
         double result = ( x - x1 ) * ( y2 - y1 ) - ( y - y1 ) * ( x2 - x1 );
-    	if(result==0){
-			return true;
-		}else{
-			return false;
-		}
+        return result == 0;
     }
     
     
@@ -240,12 +236,8 @@ public class UtilMath {
     public static boolean pointAtELine(double x,double y,double x1,double y1,double x2,double y2){
     	double result = ( x - x1 ) * ( y2 - y1 ) - ( y - y1 ) * ( x2 - x1 );
     	if(result==0){
-    		if(x >= Math.min(x1, x2) && x <= Math.max(x1,x2) 
-    		    && y >= Math.min(y1, y2) && y <= Math.max(y1,y2)){
-    		    return true;
-	    	}else{
-	    	    return false;
-	    	}
+            return x >= Math.min(x1, x2) && x <= Math.max(x1, x2)
+                    && y >= Math.min(y1, y2) && y <= Math.max(y1, y2);
     	}else{
     		return false;
     	}
@@ -286,16 +278,12 @@ public class UtilMath {
 			  double x = ((x1*y2-y1*x2)*(x3-x4)-(x3*y4-y3*x4)*(x1-x2))/((y2-y1)*(x3-x4)-(y4-y3)*(x1-x2));
 			  double y = ( x1*y2-y1*x2 - x*(y2-y1) ) / (x1-x2);
 			  //System.out.println("直线的交点("+x+","+y+")");
-			  if(x >= Math.min(x1, x2) && x <= Math.max(x1,x2) 
-					  && y >= Math.min(y1, y2) && y <= Math.max(y1,y2)
-				      && x >= Math.min(x3, x4) && x <= Math.max(x3,x4) 
-				      && y >= Math.min(y3, y4) && y <= Math.max(y3,y4) ){
-					//System.out.println("交点（"+x+","+y+"）在线段上");
-				return true;
-			  }else{
-				//System.out.println("交点（"+x+","+y+"）不在线段上");
-				return false;
-			  } 
+                //System.out.println("交点（"+x+","+y+"）在线段上");
+//System.out.println("交点（"+x+","+y+"）不在线段上");
+                return x >= Math.min(x1, x2) && x <= Math.max(x1, x2)
+                        && y >= Math.min(y1, y2) && y <= Math.max(y1, y2)
+                        && x >= Math.min(x3, x4) && x <= Math.max(x3, x4)
+                        && y >= Math.min(y3, y4) && y <= Math.max(y3, y4);
 	       }
 	}
     
@@ -315,14 +303,10 @@ public class UtilMath {
 			  double x = ((x1*y2-y1*x2)*(x3-x4)-(x3*y4-y3*x4)*(x1-x2))/((y2-y1)*(x3-x4)-(y4-y3)*(x1-x2));
 			  double y = ( x1*y2-y1*x2 - x*(y2-y1) ) / (x1-x2);
 			  //System.out.println("交点("+x+","+y+")");
-			  if(x >= Math.min(x1, x2) && x <= Math.max(x1,x2) 
-					  && y >= Math.min(y1, y2) && y <= Math.max(y1,y2)){
-					//System.out.println("交点（"+x+","+y+"）在线段上");
-				  return true;
-			  }else{
-							//System.out.println("交点（"+x+","+y+"）不在线段上");
-				return false;
-			  } 
+                //System.out.println("交点（"+x+","+y+"）在线段上");
+//System.out.println("交点（"+x+","+y+"）不在线段上");
+                return x >= Math.min(x1, x2) && x <= Math.max(x1, x2)
+                        && y >= Math.min(y1, y2) && y <= Math.max(y1, y2);
 		}
 	}
     
@@ -334,13 +318,9 @@ public class UtilMath {
      * 点A（x，y）,B(x1,y1),C(x2,y2)   点A在以直线BC为对角线的矩形中吗?
      */
     public static boolean pointAtRect(double x,double y,double x1,double y1,double x2,double y2){
-	      if(x >= Math.min(x1, x2) && x <= Math.max(x1,x2) && y >= Math.min(y1, y2) && y <= Math.max(y1,y2)){
-    	     //System.out.println("点（"+x+","+y+"）在矩形内上");
-    	     return true;
-	      }else{
-	    	 //System.out.println("点（"+x+","+y+"）不在矩形内上");
-	    	 return false;
-		  }
+        //System.out.println("点（"+x+","+y+"）在矩形内上");
+//System.out.println("点（"+x+","+y+"）不在矩形内上");
+        return x >= Math.min(x1, x2) && x <= Math.max(x1, x2) && y >= Math.min(y1, y2) && y <= Math.max(y1, y2);
 	}
     
     /**
@@ -350,16 +330,12 @@ public class UtilMath {
      * 点A(x1,y1),B(x2,y2)，C(x1,y1),D(x2,y2) 以直线AB为对角线的矩形在以直线BC为对角线的矩形中吗?
      */
     public static boolean rectAtRect(double x1,double y1,double x2,double y2,double x3,double y3,double x4,double y4){
-	      if(x1 >= Math.min(x3, x4) && x1 <= Math.max(x3,x4) 
-			  && y1 >= Math.min(y3, y4) && y1 <= Math.max(y3,y4)
-			  && x2 >= Math.min(x3, x4) && x2 <= Math.max(x3,x4) 
-			  && y2 >= Math.min(y3, y4) && y2 <= Math.max(y3,y4)){
-    	     //System.out.println("矩形在矩形内");
-    	     return true;
-	      }else{
-    	     //System.out.println("矩形不在矩形内");
-    	     return false;
-		  }
+        //System.out.println("矩形在矩形内");
+//System.out.println("矩形不在矩形内");
+        return x1 >= Math.min(x3, x4) && x1 <= Math.max(x3, x4)
+                && y1 >= Math.min(y3, y4) && y1 <= Math.max(y3, y4)
+                && x2 >= Math.min(x3, x4) && x2 <= Math.max(x3, x4)
+                && y2 >= Math.min(y3, y4) && y2 <= Math.max(y3, y4);
 	}
     
     /**
@@ -377,13 +353,9 @@ public class UtilMath {
 		double l2= Math.abs(y-y2);
 		double l3= Math.abs(x-x2);
 		double l4= Math.abs(y-y2);
-    	if(r<=l1 && r<=l2 && r<=l3 && r<=l4){
-    		  //System.out.println("圆在矩形内");
-	    	  return true;
-    	  }else{
-    		  //System.out.println("圆不在矩形内");
-	    	  return false;
-    	  }
+            //System.out.println("圆在矩形内");
+//System.out.println("圆不在矩形内");
+            return r <= l1 && r <= l2 && r <= l3 && r <= l4;
     	 
        }else{
     	     //System.out.println("圆不在矩形内");
@@ -422,11 +394,7 @@ public class UtilMath {
 			return false;
 		} else if (y2 > y1 && y2 > y1 + h1) {
 			return false;
-		} else if (y2 < y1 && y2 < y1 - h2) {
-			return false;
-		} else {
-			return true;
-		}
+		} else return !(y2 < y1) || !(y2 < y1 - h2);
 	}
  
 }

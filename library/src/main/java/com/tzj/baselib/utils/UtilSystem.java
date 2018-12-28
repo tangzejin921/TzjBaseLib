@@ -256,17 +256,6 @@ public class UtilSystem {
                 .create().show();
         return isOpened;
     }
-
-    /**
-     * 清除 cookies
-     */
-    public static void clearCookies(Context ctx) {
-        CookieSyncManager.createInstance(ctx.getApplicationContext());
-        CookieSyncManager.getInstance().startSync();
-        CookieManager.getInstance().removeAllCookie();
-        CookieSyncManager.getInstance().stopSync();
-    }
-
     /**
      * 屏幕是否亮着
      */

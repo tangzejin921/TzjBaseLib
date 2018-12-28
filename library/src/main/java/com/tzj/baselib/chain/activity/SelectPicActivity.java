@@ -1,7 +1,6 @@
 package com.tzj.baselib.chain.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,7 +12,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 
 import com.tzj.baselib.chain.activity.permission.Permission;
@@ -92,8 +90,11 @@ public class SelectPicActivity extends StartActivity {
                             Uri uri = UtilUri.parUri(SelectPicActivity.this, file);
                             captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                             //创建相册Intent
-                            Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
-                            albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+//                            Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
+//                            albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                            Intent albumIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                            albumIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                            albumIntent.setType("image/*");
                             //将相机Intent以数组形式放入Intent.EXTRA_INITIAL_INTENTS
                             intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{captureIntent});
                             //将相册Intent放入Intent.EXTRA_INTENT
@@ -144,8 +145,11 @@ public class SelectPicActivity extends StartActivity {
                 .call(new Permission.CallBack() {
                     @Override
                     public void accept() {
-                        Intent intent = new Intent(Intent.ACTION_PICK, null);
-                        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+//                        Intent intent = new Intent(Intent.ACTION_PICK, null);
+//                        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("image/*");
                         start(intent, res);
                     }
                 });

@@ -10,14 +10,12 @@ import com.tzj.baselib.chain.adapter.BaseLibFragmentAdapter;
 import com.tzj.baselib.chain.activity.BaseLibActivity;
 import com.tzj.baselib.demo.R;
 import com.tzj.baselib.widget.refresh.GifHeader;
-import com.tzj.baselib.widget.webview.TzjWebView;
 
 
 public class MainActivity extends BaseLibActivity {
     static {
         GifHeader.init();
     }
-    private TzjWebView webView;
     private ViewPager viewPager;
     private BaseLibFragmentAdapter adapter;
     private Handler handler = new Handler();
@@ -35,8 +33,6 @@ public class MainActivity extends BaseLibActivity {
     public void initView() {
         super.initView();
         viewPager = findViewById(R.id.viewPagers);
-        webView = findViewById(R.id.webView);
-        webView.loadUrl("https://www.baidu.com/");
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +60,6 @@ public class MainActivity extends BaseLibActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        webView.onResume();
     }
 
 

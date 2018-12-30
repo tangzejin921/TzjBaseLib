@@ -272,6 +272,9 @@ public class UtilFile {
             return;
         }
         String[] tempList = file.list();
+        if (tempList == null){
+            return;
+        }
         File temp;
         for (String aTempList : tempList) {
             if (path.endsWith(File.separator)) {

@@ -35,6 +35,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -162,8 +163,9 @@ public class UtilSystem {
         Bundle metaData = null;
         try {
             ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            if (null != ai)
+            if (null != ai) {
                 metaData = ai.metaData;
+            }
             if (null != metaData) {
                 String appKey = metaData.getString(kayName);
                 if (metaData != null) {
@@ -878,7 +880,7 @@ public class UtilSystem {
             file.deleteOnExit();
             c.err(e);
         }
-        new Thread(new Runnable() {
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -899,7 +901,7 @@ public class UtilSystem {
                     c.err(e);
                 }
             }
-        }).start();
+        });
         return isRecording;
     }
 

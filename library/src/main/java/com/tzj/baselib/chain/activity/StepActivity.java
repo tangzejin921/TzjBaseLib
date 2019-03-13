@@ -26,12 +26,14 @@ public class StepActivity extends LoadingActivity implements IStep {
     /**
      * 初始化View
      */
+    @Override
     public void initView() {
     }
 
     /**
      * 刷新数据
      */
+    @Override
     public void refresh() {
         if (getLoadLayout() != null) {
             mRefreshLayout.autoRefresh();
@@ -44,6 +46,7 @@ public class StepActivity extends LoadingActivity implements IStep {
     /**
      * 加载数据
      */
+    @Override
     public void loadMore() {
         if (getLoadLayout() != null) {
             mRefreshLayout.autoLoadMore();
@@ -72,6 +75,7 @@ public class StepActivity extends LoadingActivity implements IStep {
         loadFinish();
     }
 
+    @Override
     public void loadFinish() {
         if (getLoadLayout() != null) {
             mRefreshLayout.finishRefresh();

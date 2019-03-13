@@ -58,13 +58,17 @@ public class GifHeader extends FrameLayout implements RefreshInternal,RefreshHea
     }
 
     private void initView(){
+        //应为这个类用到这两个资源，并且是通过 getIdentifier 获取的，所以这里引用下，请不用删除
+        int r = R.drawable.refresh;
+        r = R.drawable.gif_refresh;
+
         imageView = new ImageView(getContext());
         LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         lp.topMargin = DensityUtil.dp2px(10);
         lp.bottomMargin = DensityUtil.dp2px(10);
         lp.gravity = Gravity.CENTER;
         imageView.setLayoutParams(lp);
-        imageView.setImageResource(R.drawable.refresh);
+        imageView.setImageResource(getResources().getIdentifier("refresh","drawable",getContext().getPackageName()));
         addView(imageView);
     }
 
@@ -109,13 +113,13 @@ public class GifHeader extends FrameLayout implements RefreshInternal,RefreshHea
     public void onStartAnimator(@NonNull RefreshLayout refreshLayout, int height, int extendHeight) {
         Glide.with(getContext())
                 .asGif()
-                .load(R.drawable.gif_refresh)
+                .load(getResources().getIdentifier("gif_refresh","drawable",getContext().getPackageName()))
                 .into(imageView);
     }
 
     @Override
     public int onFinish(@NonNull RefreshLayout refreshLayout, boolean success) {
-        imageView.setImageResource(R.drawable.refresh);
+        imageView.setImageResource(getResources().getIdentifier("refresh","drawable",getContext().getPackageName()));
         return 0;
     }
 

@@ -93,7 +93,7 @@ public class SelectPicActivity extends StartActivity {
                             Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
                             albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
 //                            Intent albumIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                            albumIntent.addCategory(Intent.CATEGORY_OPENABLE);
+//                            albumIntent.addCategory(Intent.CATEGORY_OPENABLE);
                             albumIntent.setType("image/*");
                             //将相机Intent以数组形式放入Intent.EXTRA_INITIAL_INTENTS
                             intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{captureIntent});
@@ -148,7 +148,7 @@ public class SelectPicActivity extends StartActivity {
                         Intent intent = new Intent(Intent.ACTION_PICK, null);
                         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
 //                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                        intent.addCategory(Intent.CATEGORY_OPENABLE);
                         intent.setType("image/*");
                         start(intent, res);
                     }

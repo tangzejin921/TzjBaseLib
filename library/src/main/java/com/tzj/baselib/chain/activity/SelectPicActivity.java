@@ -90,9 +90,9 @@ public class SelectPicActivity extends StartActivity {
                             Uri uri = UtilUri.parUri(SelectPicActivity.this, file);
                             captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                             //创建相册Intent
-//                            Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
-//                            albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                            Intent albumIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                            Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
+                            albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+//                            Intent albumIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                             albumIntent.addCategory(Intent.CATEGORY_OPENABLE);
                             albumIntent.setType("image/*");
                             //将相机Intent以数组形式放入Intent.EXTRA_INITIAL_INTENTS
@@ -145,9 +145,9 @@ public class SelectPicActivity extends StartActivity {
                 .call(new Permission.CallBack() {
                     @Override
                     public void accept() {
-//                        Intent intent = new Intent(Intent.ACTION_PICK, null);
-//                        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                        Intent intent = new Intent(Intent.ACTION_PICK, null);
+                        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+//                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                         intent.addCategory(Intent.CATEGORY_OPENABLE);
                         intent.setType("image/*");
                         start(intent, res);

@@ -21,11 +21,17 @@ import java.util.List;
 public class BaseLibActivity extends StepActivity {
 
     @Override
-    public void setTitle(CharSequence title) {
-        super.setTitle(title);
+    protected void onTitleChanged(CharSequence title, int color) {
+        super.onTitleChanged(title, color);
+        showBack();
+    }
+
+    /**
+     * 显示返回
+     */
+    public void showBack(){
         ActionBar actionBar = getSupportActionBar();
         if (actionBar!=null){
-            actionBar.setTitle(title);
             // 显示返回按钮
             actionBar.setDisplayHomeAsUpEnabled(true);
             // 去掉logo图标
@@ -104,6 +110,11 @@ public class BaseLibActivity extends StepActivity {
         return ret;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        fragmentlist.clear();
+    }
 }
 
 

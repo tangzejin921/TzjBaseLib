@@ -16,6 +16,6 @@
 
     <dimen name="round">5dp</dimen>
     <dimen name="round3">3dp</dimen>
-    <dimen name="cround">25dp</dimen>
+    <dimen name="oround">25dp</dimen>
 
 </resources>

@@ -1,5 +1,6 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <!--主题-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 
         <item name="colorPrimaryDark">@color/theme_dark</item> <!--导航栏颜色-->
         <item name="colorPrimary">@color/theme</item> <!--通知栏颜色-->
@@ -16,8 +17,13 @@
         <item name="android:colorForeground">@color/theme</item>
 
     </style>
-
-    <style name="AppTheme.NoBg" parent="AppTheme">
+    <!--无标题的主题-->
+    <style name="AppTheme.NoTitle" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <!--无标题无背景的主题-->
+    <style name="AppTheme.NoBg" parent="AppTheme.NoTitle">
         <!-- 隐藏状态栏 -->
         <!--<item name="android:windowFullscreen">true</item>-->
         <!-- 状态栏颜色 -->
@@ -29,7 +35,7 @@
     </style>
 
 
-
+    <!--dialog的主题-->
     <style name="dialog_base" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
@@ -37,10 +43,24 @@
         <item name="android:windowFrame">@null</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
-
+    <!--从底部弹出的动画-->
     <style name="animation_bottom">
         <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out_from_bottom</item>
+    </style>
+
+    <!--用于横条 padding-->
+    <style name="line_padding">
+        <item name="android:paddingTop">@dimen/padding_line</item>
+        <item name="android:paddingBottom">@dimen/padding_line</item>
+        <item name="android:paddingLeft">@dimen/padding</item>
+        <item name="android:paddingRight">@dimen/padding</item>
+    </style>
+
+    <!--上下的 padding-->
+    <style name="line_tb">
+        <item name="android:paddingTop">@dimen/padding_line</item>
+        <item name="android:paddingBottom">@dimen/padding_line</item>
     </style>
 
 </resources>

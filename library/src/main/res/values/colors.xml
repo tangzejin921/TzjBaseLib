@@ -12,6 +12,7 @@
 
     <color name="white">#FFFFFF</color>
     <color name="gray">#EFF1F2</color>
+    <color name="gray_dark">#C3CBCF</color>
 
     <color name="red">#FF5C5C</color>
     <color name="green">@android:color/holo_green_light</color>

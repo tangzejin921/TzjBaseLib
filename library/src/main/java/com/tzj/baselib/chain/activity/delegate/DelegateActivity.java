@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.os.CloseHandler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 与生命周期想关的可以用Delegate放这里
  */
-public class DelegateActivity extends FragmentActivity {
+public class DelegateActivity extends AppCompatActivity {
     private List<ActivityDelegate> mList = new ArrayList<>();
     /**
      * 界面结束后，他将失效

@@ -4,6 +4,9 @@ package com.tzj.baselib.chain.activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.tzj.baselib.R;
 
@@ -16,6 +19,45 @@ import java.util.List;
  * 可以修改他的继承类
  */
 public class BaseLibActivity extends StepActivity {
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar!=null){
+            actionBar.setTitle(title);
+            // 显示返回按钮
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            // 去掉logo图标
+            actionBar.setDisplayShowHomeEnabled(false);
+        }
+    }
+
+    /**
+     * 控制 title 隐藏显示
+     */
+    public void setTitleVisibility(int visibility){
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar!=null){
+            if (visibility == View.GONE){
+                actionBar.hide();
+            }else{
+                actionBar.show();
+            }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:   //返回键的id
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     protected void loadFragment(Fragment fragment){
         loadFragment(R.id.fragment,fragment);

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Point;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
@@ -24,16 +25,21 @@ public abstract class BaseDialog extends Dialog {
 
     public BaseDialog(Context context, int themeResId) {
         super(context, themeResId);
-        init();
     }
 
     protected BaseDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(mRoot = createView());
         init();
     }
 
     protected void init() {
-        setContentView(mRoot = createView());
+
     }
 
     protected abstract View createView();

@@ -11,9 +11,12 @@ import android.view.WindowManager;
 
 import com.tzj.baselib.R;
 
+import java.lang.ref.WeakReference;
+
 
 public abstract class BaseDialog extends Dialog {
     protected View mRoot;
+    private WeakReference<Context> ctx;
 
     public BaseDialog(Context context) {
         this(context, R.style.dialog_base);
@@ -21,11 +24,13 @@ public abstract class BaseDialog extends Dialog {
 
     public BaseDialog(Context context, int themeResId) {
         super(context, themeResId);
+        ctx = new WeakReference<>(context);
         init();
     }
 
     protected BaseDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+        ctx = new WeakReference<>(context);
         init();
     }
 
@@ -110,6 +115,13 @@ public abstract class BaseDialog extends Dialog {
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    public Context gitContext(){
+        if (ctx != null){
+            return ctx.get();
+        }
+        return null;
     }
 
     public BaseDialog setDismissListener(@Nullable OnDismissListener listener) {

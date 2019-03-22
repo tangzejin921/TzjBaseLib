@@ -1,7 +1,9 @@
 package com.tzj.baselib.chain.dia;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Point;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
@@ -11,12 +13,10 @@ import android.view.WindowManager;
 
 import com.tzj.baselib.R;
 
-import java.lang.ref.WeakReference;
 
 
 public abstract class BaseDialog extends Dialog {
     protected View mRoot;
-    private WeakReference<Context> ctx;
 
     public BaseDialog(Context context) {
         this(context, R.style.dialog_base);
@@ -24,13 +24,11 @@ public abstract class BaseDialog extends Dialog {
 
     public BaseDialog(Context context, int themeResId) {
         super(context, themeResId);
-        ctx = new WeakReference<>(context);
         init();
     }
 
     protected BaseDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
-        ctx = new WeakReference<>(context);
         init();
     }
 
@@ -117,9 +115,13 @@ public abstract class BaseDialog extends Dialog {
         super.onStop();
     }
 
-    public Context gitContext(){
-        if (ctx != null){
-            return ctx.get();
+    public Activity getActivity(){
+        Context context = getContext();
+        if (context != null && context instanceof ContextWrapper){
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        if (context != null && context instanceof Activity){
+            return (Activity) context;
         }
         return null;
     }

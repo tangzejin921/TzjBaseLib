@@ -213,6 +213,20 @@ public class UtilSystem {
     }
 
     /**
+     * 跳到/打开市场
+     */
+    public static void market(Context ctx){
+        try {
+            Uri uri = Uri.parse("market://details?id=" + ctx.getPackageName());
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            ctx.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 打开设置
      */
     public static void openSetting(Context ctx) {

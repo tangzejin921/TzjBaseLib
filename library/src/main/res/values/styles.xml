@@ -56,9 +56,18 @@
         <item name="android:paddingLeft">@dimen/padding</item>
         <item name="android:paddingRight">@dimen/padding</item>
     </style>
+    <!--用于横条 padding 白色背景-->
+    <style name="line_padding.white" parent="line_padding">
+        <item name="android:background">@color/white</item>
+    </style>
 
     <!--上下的 padding-->
     <style name="line_tb">
+        <item name="android:paddingTop">@dimen/padding_line</item>
+        <item name="android:paddingBottom">@dimen/padding_line</item>
+    </style>
+    <!--上下的 padding 白色背景-->
+    <style name="line_tb.white" parent="line_tb">
         <item name="android:paddingTop">@dimen/padding_line</item>
         <item name="android:paddingBottom">@dimen/padding_line</item>
     </style>

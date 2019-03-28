@@ -109,7 +109,9 @@ public class DelegateActivity extends AppCompatActivity {
         while (iterator.hasNext()) {
             iterator.next().onClear();
         }
-        mHandler.close();
+        if (mHandler != null){
+            mHandler.close();
+        }
         mHandler = null;
     }
 

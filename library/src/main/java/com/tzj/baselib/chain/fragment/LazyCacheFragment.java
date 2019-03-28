@@ -32,7 +32,9 @@ public class LazyCacheFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mHandler.close();
+        if (mHandler != null){
+            mHandler.close();
+        }
         mHandler = null;
     }
 

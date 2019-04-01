@@ -1,14 +1,14 @@
 package com.tzj.baselib.chain.dia;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -122,21 +122,21 @@ public abstract class BaseFragDialog extends DialogFragment {
         setPadding((int) (outSize.x * 0.1));
     }
 
-    public Activity gitActivity(){
+    public FragmentActivity gitActivity(){
         if (ctx != null){
             Context context = ctx.get();
             if (context == null){
                 context = getActivity();
             }
-            if (context != null && context instanceof Activity){
-                return ((Activity) context);
+            if (context != null && context instanceof FragmentActivity){
+                return ((FragmentActivity) context);
             }
         }
         return null;
     }
 
     public Window getWindow(){
-        Activity activity = gitActivity();
+        FragmentActivity activity = gitActivity();
         if (activity != null){
             return activity.getWindow();
         }
@@ -151,9 +151,9 @@ public abstract class BaseFragDialog extends DialogFragment {
      * 请设置 context
      */
     public void show(){
-        Activity activity = gitActivity();
+        FragmentActivity activity = gitActivity();
         if (activity != null){
-            show(activity.getFragmentManager(),getClass().getSimpleName());
+            show(activity.getSupportFragmentManager(),getClass().getSimpleName());
         }
     }
 

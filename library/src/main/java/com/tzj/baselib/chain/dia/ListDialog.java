@@ -23,13 +23,13 @@ public class ListDialog extends BaseDialog{
 
     private Point point;
     private TzjRecyclerView recyclerView;
-    private List<Object> mList;
+    private List mList;
 
     public ListDialog(Context context) {
         super(context);
     }
 
-    public ListDialog setList(List<Object> list) {
+    public ListDialog setList(List list) {
         mList.clear();
         mList.addAll(list);
         return this;

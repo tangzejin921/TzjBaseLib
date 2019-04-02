@@ -29,7 +29,7 @@ dependencies {
     //滑动返回(子类不需要用到)
     implementation 'me.imid.swipebacklayout.lib:library:1.3.0'
     //RecyclerView
-    api 'com.github.tzjandroid:TzjRecyclerView:0be7a7e0a3'//0be7a7e0a3
+    api 'com.github.tzjandroid:TzjRecyclerView:ad99794007'//ad99794007
     //下拉刷新
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     //glide 图片加载

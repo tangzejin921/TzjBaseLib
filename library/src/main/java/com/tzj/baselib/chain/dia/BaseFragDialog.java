@@ -1,5 +1,6 @@
 package com.tzj.baselib.chain.dia;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.tzj.baselib.R;
+import com.tzj.baselib.chain.activity.BaseLibActivity;
 
 import java.lang.ref.WeakReference;
 
@@ -182,5 +184,19 @@ public abstract class BaseFragDialog extends DialogFragment {
 //        super.setOnDismissListener(listener);
         this.cancelListener = cancelListener;
         return this;
+    }
+
+    //====================
+    public void showProgress(){
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof BaseLibActivity){
+            ((BaseLibActivity) activity).showProgress();
+        }
+    }
+    public void dismissProgress(){
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof BaseLibActivity){
+            ((BaseLibActivity) activity).dismissProgress();
+        }
     }
 }

@@ -69,7 +69,18 @@ public class UtilCheck {
         Matcher m = p.matcher(str);
         return m.matches();
     }
-
+    /**
+     * 检查是否含有中文
+     */
+    public static boolean containsCN(String str) {
+        if (str == null) {
+            return false;
+        }
+        String regEx = "[\u4e00-\u9fa5]{1,}";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.find();
+    }
     /**
      * 检查是否为字母
      */

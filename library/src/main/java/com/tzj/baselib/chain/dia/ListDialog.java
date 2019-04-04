@@ -23,7 +23,7 @@ public class ListDialog extends BaseDialog{
 
     private Point point;
     private TzjRecyclerView recyclerView;
-    private List mList;
+    private List mList = new ArrayList();
 
     public ListDialog(Context context) {
         super(context);

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.tzj.baselib.R;
 import com.tzj.baselib.holder.DiaListHolder;
+import com.tzj.recyclerview.IViewType;
 import com.tzj.recyclerview.TzjRecyclerView;
 import com.tzj.recyclerview.adapter.TzjAdapter;
 
@@ -23,6 +24,7 @@ public class ListDialog extends BaseDialog{
 
     private Point point;
     private TzjRecyclerView recyclerView;
+    private TzjAdapter.OnItemClickListener listener;
     private List mList = new ArrayList();
 
     public ListDialog(Context context) {
@@ -40,8 +42,8 @@ public class ListDialog extends BaseDialog{
         return this;
     }
 
-    public ListDialog setItemClickListener(TzjAdapter.OnItemClickListener listener){
-        recyclerView.setItemClickListener(listener);
+    public ListDialog setItemClickListener(final TzjAdapter.OnItemClickListener listener){
+        this.listener = listener;
         return this;
     }
 
@@ -57,7 +59,6 @@ public class ListDialog extends BaseDialog{
         super.init();
         setFromBottom();
         point = new Point(0,0);
-        mList = new ArrayList<>();
 
         WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getSize(point);
@@ -67,8 +68,19 @@ public class ListDialog extends BaseDialog{
         recyclerView.setDivider(false,false);
 
         recyclerView.setLineLayoutManager();
-        recyclerView.setViewType(R.layout.item_dia_list,DiaListHolder.class);
+        if (mList.size() == 0 || (mList.size() > 0 && !(mList.get(0) instanceof IViewType))){
+            recyclerView.setViewType(R.layout.item_dia_list,DiaListHolder.class);
+        }
         recyclerView.setList(mList);
+        recyclerView.setItemClickListener(new TzjAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(TzjAdapter adapter, View v, int index, Object obj) {
+                if (listener != null){
+                    listener.onItemClick(adapter,v,index,obj);
+                    dismiss();
+                }
+            }
+        });
 
         findViewById(R.id.cancle).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,19 +88,19 @@ public class ListDialog extends BaseDialog{
                 dismiss();
             }
         });
-    }
 
-    @Override
-    public void show() {
+        //限制高度
         recyclerView.notifyDataSetChanged();
         ViewGroup.LayoutParams lp = mRoot.getLayoutParams();
         if (mList.size() >= 10){
             lp.height = point.y*2/3;
         }
         mRoot.setLayoutParams(lp);
-        super.show();
     }
 
+    /**
+     * 确定的按键
+     */
     public ListDialog setPositiveButton(String str, View.OnClickListener listener) {
         TextView viewById = mRoot.findViewById(R.id.sure);
         viewById.setText(str);

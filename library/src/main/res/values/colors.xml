@@ -14,8 +14,9 @@
     <color name="gray">#EFF1F2</color>
     <color name="gray_dark">#C3CBCF</color>
 
-    <color name="red">#FF5C5C</color>
-    <color name="green">@android:color/holo_green_light</color>
+    <color name="red">#FD7476</color>
+    <color name="green">#1EC25E</color>
+    <color name="blue">#348CE3</color>
 
     <color name="black_transparent">#60000000</color>
     <color name="transparent">#00000000</color>

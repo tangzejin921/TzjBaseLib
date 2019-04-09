@@ -42,7 +42,9 @@ public class UtilTo {
      */
     public static String toASCString(byte[] src){
         StringBuilder string = new StringBuilder();
-        if (src == null) return string.toString();
+        if (src == null){
+            return string.toString();
+        }
         for (byte aSrc : src) {
             string.append((char) aSrc);
         }
@@ -65,6 +67,14 @@ public class UtilTo {
     public static Spanned getColor(String s, String color){
         s = "<font color='"+color+"'><b>"+s+"</b></font>";
         return Html.fromHtml(s);
+    }
+    /**
+     * 保留 2位小数
+     */
+    public static String format(double d){
+        String format = String .format("%.2f",d);
+//        format = new DecimalFormat("#.00").format(d);// '.3' 会转成  .3
+        return format;
     }
 
 }

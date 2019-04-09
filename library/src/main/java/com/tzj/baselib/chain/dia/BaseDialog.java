@@ -14,7 +14,6 @@ import android.view.WindowManager;
 
 import com.tzj.baselib.R;
 import com.tzj.baselib.chain.activity.BaseLibActivity;
-import com.tzj.baselib.chain.fragment.BaseLibFragment;
 
 
 public abstract class BaseDialog extends Dialog {
@@ -40,7 +39,6 @@ public abstract class BaseDialog extends Dialog {
     }
 
     protected void init() {
-
     }
 
     protected abstract View createView();

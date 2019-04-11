@@ -25,7 +25,7 @@ public class ListDialog extends BaseDialog{
     private Point point;
     protected TzjRecyclerView recyclerView;
     protected TzjAdapter.OnItemClickListener listener;
-    private List mList = new ArrayList();
+    protected List mList = new ArrayList();
 
     public ListDialog(Context context) {
         super(context);

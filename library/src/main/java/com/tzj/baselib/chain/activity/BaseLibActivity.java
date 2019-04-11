@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.tzj.baselib.chain.activity.start.ActivityResult;
+import com.tzj.baselib.chain.activity.start.IResult;
 import com.tzj.baselib.chain.fragment.FragManagerImp;
 import com.tzj.baselib.chain.fragment.IFragManager;
 
@@ -16,6 +18,14 @@ import com.tzj.baselib.chain.fragment.IFragManager;
  * 可以修改他的继承类
  */
 public class BaseLibActivity extends StepActivity implements IFragManager {
+    protected IResult refresh = new IResult() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.refresh()){
+                refresh();
+            }
+        }
+    };
 
     @Override
     protected void onTitleChanged(CharSequence title, int color) {

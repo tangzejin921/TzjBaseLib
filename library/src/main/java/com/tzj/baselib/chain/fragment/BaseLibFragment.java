@@ -3,7 +3,18 @@ package com.tzj.baselib.chain.fragment;
 
 import android.support.v4.app.Fragment;
 
+import com.tzj.baselib.chain.activity.start.ActivityResult;
+import com.tzj.baselib.chain.activity.start.IResult;
+
 public class BaseLibFragment extends StepFragment implements IFragManager {
+    protected IResult refresh = new IResult() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.refresh()){
+                refresh();
+            }
+        }
+    };
 
     protected IFragManager fragManager = new FragManagerImp(this);
 

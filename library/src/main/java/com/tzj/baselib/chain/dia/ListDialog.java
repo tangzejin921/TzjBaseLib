@@ -23,8 +23,8 @@ import java.util.List;
 public class ListDialog extends BaseDialog{
 
     private Point point;
-    private TzjRecyclerView recyclerView;
-    private TzjAdapter.OnItemClickListener listener;
+    protected TzjRecyclerView recyclerView;
+    protected TzjAdapter.OnItemClickListener listener;
     private List mList = new ArrayList();
 
     public ListDialog(Context context) {

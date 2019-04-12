@@ -23,12 +23,14 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_big"
         android:textStyle="bold"
+        android:gravity="center"
         tools:text="提示" />
 
     <TextView
         android:id="@+id/hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         tools:text="具体的信息" />
 
     <LinearLayout

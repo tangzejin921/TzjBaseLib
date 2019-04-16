@@ -56,8 +56,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.MimeTypeMap;
 import android.widget.TextView;
 
@@ -96,36 +94,6 @@ public class UtilSystem {
 //            deviceId = (new StringBuilder("EMU")).append((new Random(System.currentTimeMillis())).nextLong()).toString();
 //        }
         return tm.getDeviceId();
-    }
-
-    /**
-     * 写入文件方式获取唯一号
-     */
-    public static String getPhoneUUID(Context ctx){
-        try {
-            File file = Environment.getExternalStorageDirectory();
-            File android = new File(file, ".Android");
-            if (!android.exists()){
-                android.mkdirs();
-            }
-            File uuid = new File(android, "UUID");
-            String uuidStr = null;
-            if (!uuid.exists()){
-                uuid.createNewFile();
-                uuidStr = UUID.randomUUID().toString().replace("-","");
-                FileOutputStream fos = new FileOutputStream(uuid);
-                fos.write(uuidStr.getBytes());
-                fos.close();
-            }else{
-                FileInputStream fis = new FileInputStream(uuid);
-                BufferedReader br = new BufferedReader(new FileReader(uuid));
-                uuidStr = br.readLine();
-            }
-            return uuidStr;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return "";
     }
 
     /**

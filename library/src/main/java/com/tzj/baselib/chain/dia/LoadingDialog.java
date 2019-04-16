@@ -22,10 +22,14 @@ public class LoadingDialog extends BaseDialog {
         super.init();
         clearBack();
         View v = findViewById(R.id.loading_view);
+        int identifier = v.getResources().getIdentifier("gif_loading", "drawable", v.getContext().getPackageName());
+        if (identifier == 0){
+            identifier = R.drawable.gif_loading;
+        }
         if (v instanceof ImageView){
             Glide.with(getContext())
                     .asGif()
-                    .load(R.drawable.gif_loading)
+                    .load(identifier)
                     .into(((ImageView) v));
         }
     }

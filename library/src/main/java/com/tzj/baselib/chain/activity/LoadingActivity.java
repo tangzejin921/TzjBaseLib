@@ -17,7 +17,8 @@ public class LoadingActivity extends SelectPicActivity {
             return new LoadingDialog(ctx);
         }
     };
-    public static void setCreateDialog(DefaultCreateDialog createDialog){
+
+    public static void setCreateDialog(DefaultCreateDialog createDialog) {
         LoadingActivity.createDialog = createDialog;
     }
 
@@ -25,38 +26,40 @@ public class LoadingActivity extends SelectPicActivity {
     private volatile Integer number = 0;
 
     public void showProgress() {
-        synchronized (this){
-            if (dialog==null) {
+        synchronized (this) {
+            if (dialog == null) {
                 number = 0;
                 dialog = createDialog.createDialog(this);
             }
-            if (!dialog.isShowing()){
+            if (!dialog.isShowing()) {
                 dialog.show(false);
             }
             ++number;
         }
     }
+
     public void dismissProgress() {
-        synchronized (this){
+        synchronized (this) {
             --number;
-            if (number>0||dialog == null) {
-                return ;
+            if (number > 0 || dialog == null) {
+                return;
             }
             dialog.dismiss();
-            dialog=null;
+            dialog = null;
         }
     }
 
-    public void toast(Object obj){
-        Snackbar.make(getWindow().getDecorView(),"",Snackbar.LENGTH_LONG)
-                .setText(obj+"").show();
+    public void toast(Object obj) {
+        Snackbar.make(getWindow().getDecorView(), "", Snackbar.LENGTH_LONG)
+                .setText(obj + "").show();
     }
-    public void toast(int r){
-        if ((r&0x7f000000)==0x7f000000){
-            Snackbar.make(getWindow().getDecorView(),"",Snackbar.LENGTH_LONG)
+
+    public void toast(int r) {
+        if (r > 0 && (r & 0x7f000000) == 0x7f000000) {
+            Snackbar.make(getWindow().getDecorView(), "", Snackbar.LENGTH_LONG)
                     .setText(r).show();
-        }else{
-            toast(r+"");
+        } else {
+            toast(r + "");
         }
     }
 }

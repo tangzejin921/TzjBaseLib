@@ -20,7 +20,11 @@ import com.tzj.baselib.env.AppEnv;
 public class UtilApp {
 
     public static void show(int res) {
-        show(AppEnv.getAppCtx().getResources().getString(res));
+        if (res >0 && (res & 0x7f000000) == 0x7f000000){
+            show(AppEnv.getAppCtx().getResources().getString(res));
+        }else{
+            show(res+"");
+        }
     }
 
     public static void show(final CharSequence c) {

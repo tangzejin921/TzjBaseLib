@@ -25,7 +25,7 @@ public class UtilShape {
          * 颜色
          */
         public ShapeDrawable setColor(int argb) {
-            if (0x7f000000 == (argb&0x7f000000)){
+            if (argb>0 && 0x7f000000 == (argb&0x7f000000)){
                 argb = AppEnv.getAppCtx().getResources().getColor(argb);
             }
             drawable.setColor(argb);

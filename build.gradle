@@ -30,7 +30,8 @@ project.ext {
     ext._minSdkVersion = 16
     ext._targetSdkVersion = 27
     ext._supportVersion = "27.1.1"
-    javaVersion = JavaVersion.VERSION_1_8
+    ext.javaVersion = JavaVersion.VERSION_1_8
+    ext._glide="4.9.0"
 }
 task clean(type: Delete) {
     delete rootProject.buildDir

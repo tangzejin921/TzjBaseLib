@@ -43,6 +43,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.os.Vibrator;
+import android.provider.AlarmClock;
 import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.support.annotation.RequiresPermission;
@@ -60,6 +61,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.TextView;
 
 import com.tzj.baselib.env.AppEnv;
+import com.tzj.baselib.env.config.BuildConfig;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -103,18 +105,18 @@ public class UtilSystem {
     public static String getDeviceId(Context ctx) throws IOException {
         File file = Environment.getExternalStorageDirectory();
         File android = new File(file, ".Android");
-        if (!android.exists()){
+        if (!android.exists()) {
             android.mkdirs();
         }
         File uuid = new File(android, "UUID");
         String uuidStr = null;
-        if (!uuid.exists()){
+        if (!uuid.exists()) {
             uuid.createNewFile();
-            uuidStr = UUID.randomUUID().toString().replace("-","");
+            uuidStr = UUID.randomUUID().toString().replace("-", "");
             FileOutputStream fos = new FileOutputStream(uuid);
             fos.write(uuidStr.getBytes());
             fos.close();
-        }else{
+        } else {
             FileInputStream fis = new FileInputStream(uuid);
             BufferedReader br = new BufferedReader(new FileReader(uuid));
             uuidStr = br.readLine();
@@ -214,7 +216,7 @@ public class UtilSystem {
     /**
      * 跳到/打开市场
      */
-    public static void market(Context ctx){
+    public static void market(Context ctx) {
         try {
             Uri uri = Uri.parse("market://details?id=" + ctx.getPackageName());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -271,6 +273,7 @@ public class UtilSystem {
                 .create().show();
         return isOpened;
     }
+
     /**
      * 屏幕是否亮着
      */
@@ -319,7 +322,7 @@ public class UtilSystem {
      */
     public static void setScreenLight(Context ctx, boolean isLight, int flag) {
         PowerManager manager = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock newWakeLock = manager.newWakeLock(flag, "May Video Tag");
+        PowerManager.WakeLock newWakeLock = manager.newWakeLock(flag, BuildConfig.getAppName()+":"+BuildConfig.getApplicationId());
         if (isLight) {
             newWakeLock.acquire();//保持
         } else {
@@ -634,6 +637,7 @@ public class UtilSystem {
                     context,
                     new String[]{filePath},
                     null, new MediaScannerConnection.OnScanCompletedListener() {
+                        @Override
                         public void onScanCompleted(String path, Uri uri) {
                         }
                     }
@@ -770,7 +774,62 @@ public class UtilSystem {
         intent.putExtra("sms_body", smsBody);
         cxt.startActivity(intent);
     }
+    /**
+     * 设置闹钟
+     * 闹钟 广播
+     * com.android.deskclock.ALARM_ALERT
+     * android.intent.action.ALARM_CHANGED
+     *
+     * @param ctx
+     * @param days     为NLLL 不重复
+     * @param message  信息
+     * @param hour
+     * @param minutes
+     * @param ringTone 为NULL 系统默认铃声
+     */
+    @RequiresPermission(Manifest.permission.SET_ALARM)
+    public static void setAlarm(Context ctx, ArrayList<Integer> days, String message, int hour, int minutes, Uri ringTone) {
+        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
+                //闹钟的小时
+                .putExtra(AlarmClock.EXTRA_HOUR, hour)
+                //闹钟的分钟
+                .putExtra(AlarmClock.EXTRA_MINUTES, minutes)
+                //响铃时提示的信息
+                .putExtra(AlarmClock.EXTRA_MESSAGE, message)
+                //用于指定该闹铃触发时是否振动
+                .putExtra(AlarmClock.EXTRA_VIBRATE, true)
+                //如果为true，则调用startActivity()不会进入手机的闹钟设置界面
+                .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+        if (days != null && days.size() > 0) {
+            //一个 ArrayList，其中包括应重复触发该闹铃的每个周日。
+            // 每一天都必须使用 Calendar 类中的某个整型值（如 MONDAY）进行声明。
+            //对于一次性闹铃，无需指定此 extra
+            intent.putExtra(AlarmClock.EXTRA_DAYS, days);
+        }
+        if (ringTone != null) {
+            //一个 content: URI，用于指定闹铃使用的铃声，也可指定 VALUE_RINGTONE_SILENT 以不使用铃声。
+            //如需使用默认铃声，则无需指定此 extra。
+            intent.putExtra(AlarmClock.EXTRA_RINGTONE, ringTone);
+        }
+        if (intent.resolveActivity(ctx.getPackageManager()) != null) {
+            ctx.startActivity(intent);
+        }
+    }
 
+    /**
+     * 清除闹钟
+     * 并不管用
+     */
+    @RequiresPermission(Manifest.permission.SET_ALARM)
+    public static void clearAlarm(final Context ctx, final int hour, final int minutes) {
+        Intent intent = new Intent(AlarmClock.ACTION_DISMISS_ALARM)
+                .putExtra(AlarmClock.EXTRA_ALARM_SEARCH_MODE, AlarmClock.ALARM_SEARCH_MODE_TIME)
+                .putExtra(AlarmClock.EXTRA_HOUR, hour)
+                .putExtra(AlarmClock.EXTRA_MINUTES, minutes);
+        if (intent.resolveActivity(ctx.getPackageManager()) != null) {
+            ctx.startActivity(intent);
+        }
+    }
     /**
      * 有无相机
      */
@@ -981,8 +1040,9 @@ public class UtilSystem {
                 // 得到手机号码
                 String phoneNumber = phoneCursor.getString(PHONES_NUMBER_INDEX);
                 // 当手机号码为空的或者为空字段 跳过当前循环
-                if (TextUtils.isEmpty(phoneNumber))
+                if (TextUtils.isEmpty(phoneNumber)){
                     continue;
+                }
                 // 得到联系人名称
                 String contactName = phoneCursor.getString(PHONES_DISPLAY_NAME_INDEX);
                 // 得到联系人ID
@@ -1009,8 +1069,9 @@ public class UtilSystem {
                 // 得到手机号码
                 String phoneNumber = phoneCursor.getString(PHONES_NUMBER_INDEX);
                 // 当手机号码为空的或者为空字段 跳过当前循环
-                if (TextUtils.isEmpty(phoneNumber))
+                if (TextUtils.isEmpty(phoneNumber)){
                     continue;
+                }
                 // 得到联系人名称
                 String contactName = phoneCursor.getString(PHONES_DISPLAY_NAME_INDEX);
                 // Sim卡中没有联系人头像

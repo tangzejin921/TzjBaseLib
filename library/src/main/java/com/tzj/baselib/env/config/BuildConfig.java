@@ -1,5 +1,8 @@
 package com.tzj.baselib.env.config;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+
 import com.tzj.baselib.env.AppEnv;
 import com.tzj.baselib.utils.UtilField;
 
@@ -69,5 +72,20 @@ public class BuildConfig {
         Object o = c.newInstance();
         Field field = UtilField.getField(c, name);
         return field.get(o);
+    }
+
+    /**
+     * APP 的名称
+     */
+    public static String getAppName(){
+        try {
+            PackageManager packageManager = AppEnv.getAppCtx().getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(AppEnv.getAppCtx().getPackageName(), 0);
+            int labelRes = packageInfo.applicationInfo.labelRes;
+            return AppEnv.getAppCtx().getResources().getString(labelRes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

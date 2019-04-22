@@ -1,11 +1,11 @@
 package com.tzj.baselib.chain;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.tzj.baselib.env.AppEnv;
 import com.tzj.baselib.utils.UtilSystem;
 
-public abstract class TzjLibApplication extends Application{
+public abstract class TzjLibApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {

@@ -9,6 +9,7 @@ android {
         targetSdkVersion _targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -17,9 +18,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     implementation project(':library')
     implementation "com.android.support:design:$_supportVersion"
+    implementation "android.arch.lifecycle:extensions:1.1.1"
 }

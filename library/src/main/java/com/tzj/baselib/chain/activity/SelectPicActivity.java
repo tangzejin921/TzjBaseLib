@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -23,9 +24,14 @@ import com.tzj.baselib.chain.dia.DefaultCreateDialog;
 import com.tzj.baselib.chain.dia.ListDialog;
 import com.tzj.baselib.utils.UtilUri;
 import com.tzj.recyclerview.adapter.TzjAdapter;
+import com.zhihu.matisse.Glide4Engine;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 选择图片文件
@@ -110,6 +116,35 @@ public class SelectPicActivity extends StartActivity {
     }
 
     /**
+     * 知乎的图片选择
+     */
+    protected void openZhihuChoice(final int maxCount, final Result result) {
+        openPermission()
+                .add(Manifest.permission.CAMERA)
+                .add(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .call(new Permission.CallBack() {
+                    @Override
+                    public void accept() {
+                        Matisse.from(SelectPicActivity.this)
+                                // 选择 mime 的类型
+                                .choose(MimeType.ofAll(), false)
+                                .countable(true)
+                                // 图片选择的最多数量
+                                .maxSelectable(maxCount)
+//                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.zhihu_grid_expected_size))
+                                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                                // 缩略图的比例
+                                .thumbnailScale(0.85f)
+                                // 使用的图片加载引擎
+                                .imageEngine(new Glide4Engine())
+                                // 设置作为标记的请求码
+                                .forResult(poutResult(result));
+                    }
+                });
+    }
+
+    /**
      * 打开相机
      */
     public void openCamera(final Result res) {
@@ -176,21 +211,25 @@ public class SelectPicActivity extends StartActivity {
                                 Bitmap bitmap = view.getDrawingCache();
                                 try {
                                     String temp = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, Environment.DIRECTORY_DCIM, "temp");
+                                    final List<Uri> list = new ArrayList<>();
                                     final Uri uri = Uri.parse(temp);
+                                    if (uri != null) {
+                                        list.add(uri);
+                                    }
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            res.ok(uri);
+                                            res.ok(list);
                                         }
                                     });
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             res.err();
                                         }
                                     });
-                                }finally {
+                                } finally {
                                     bitmap.recycle();
                                 }
                             }
@@ -229,7 +268,15 @@ public class SelectPicActivity extends StartActivity {
                     if (result.resultOk() && result.getData() != null) {//选择
                         uri = result.getData().getData();
                     }
-                    final Uri temp = uri;
+                    final List<Uri> temp = new ArrayList<>();
+                    if (uri != null) {
+                        temp.add(uri);
+                    }
+                    //如果还空，用知乎的图片选择库
+                    if (result.resultOk() && temp.size() == 0) {
+                        List<Uri> mSelected = Matisse.obtainResult(result.getData());
+                        temp.addAll(mSelected);
+                    }
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
@@ -244,7 +291,7 @@ public class SelectPicActivity extends StartActivity {
             });
         }
 
-        public abstract void ok(Uri uri);
+        public abstract void ok(List<Uri> uris);
 
         public void err() {
         }

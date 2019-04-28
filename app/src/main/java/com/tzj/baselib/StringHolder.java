@@ -16,6 +16,7 @@ public class StringHolder extends TzjViewHolder<String> {
 
     @Override
     public void onBind(TzjAdapter adapter, String s, int position) {
+        super.onBind(adapter,s,position);
         textView.setText(s);
         setOnClickListener(textView,position);
     }

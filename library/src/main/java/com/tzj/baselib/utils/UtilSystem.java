@@ -66,7 +66,6 @@ import com.tzj.baselib.env.config.BuildConfig;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -117,9 +116,10 @@ public class UtilSystem {
             fos.write(uuidStr.getBytes());
             fos.close();
         } else {
-            FileInputStream fis = new FileInputStream(uuid);
-            BufferedReader br = new BufferedReader(new FileReader(uuid));
+            FileReader fileReader = new FileReader(uuid);
+            BufferedReader br = new BufferedReader(fileReader);
             uuidStr = br.readLine();
+            fileReader.close();
         }
         return uuidStr;
     }

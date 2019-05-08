@@ -27,4 +27,11 @@ dependencies {
     implementation project(':library')
     implementation "com.android.support:design:$_supportVersion"
     implementation "android.arch.lifecycle:extensions:1.1.1"
+
+    //leakcanary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:1.6.3"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
+    //blockcanary
+    debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
+    releaseImplementation 'com.github.markzhai:blockcanary-no-op:1.5.0'
 }

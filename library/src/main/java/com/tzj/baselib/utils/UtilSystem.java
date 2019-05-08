@@ -119,6 +119,7 @@ public class UtilSystem {
             FileReader fileReader = new FileReader(uuid);
             BufferedReader br = new BufferedReader(fileReader);
             uuidStr = br.readLine();
+            br.close();
             fileReader.close();
         }
         return uuidStr;

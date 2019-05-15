@@ -2,7 +2,7 @@ package com.tzj.baselib.utils;
 
 import android.graphics.drawable.GradientDrawable;
 
-import com.tzj.baselib.env.AppEnv;
+import com.tzj.baselib.env.TzjAppEnv;
 
 /**
  *  xml 定义的bitmap
@@ -26,7 +26,7 @@ public class UtilShape {
          */
         public ShapeDrawable setColor(int argb) {
             if (argb>0 && 0x7f000000 == (argb&0x7f000000)){
-                argb = AppEnv.getAppCtx().getResources().getColor(argb);
+                argb = TzjAppEnv.getAppCtx().getResources().getColor(argb);
             }
             drawable.setColor(argb);
             return this;

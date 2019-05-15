@@ -9,37 +9,37 @@ import android.widget.Toast;
 
 import com.tzj.baselib.R;
 import com.tzj.baselib.utils.UtilLog;
-import com.tzj.baselib.env.config.AppConfig;
+import com.tzj.baselib.env.config.TzjAppConfig;
 
 /**
  * Created by tzj on 2018/6/5.
  */
-public class AppEnv {
+public class TzjAppEnv {
     private static Handler mHandler = new Handler();
     private static Toast mToast;
     private static Context appCtx;
     public static DisplayMetrics displayMetrics;
 
     public static void init(Context ctx){
-        AppEnv.appCtx = ctx.getApplicationContext();
+        TzjAppEnv.appCtx = ctx.getApplicationContext();
         displayMetrics = ctx.getResources().getDisplayMetrics();
-//        AppEnv.mToast = Toast.makeText(AppEnv.appCtx,"",Toast.LENGTH_LONG);
-        AppEnv.mToast = new Toast(AppEnv.appCtx);
+//        TzjAppEnv.mToast = Toast.makeText(TzjAppEnv.appCtx,"",Toast.LENGTH_LONG);
+        TzjAppEnv.mToast = new Toast(TzjAppEnv.appCtx);
         mToast.setGravity(Gravity.CENTER,0,0);
         mToast.setDuration(Toast.LENGTH_LONG);
-        mToast.setView(View.inflate(AppEnv.appCtx, R.layout.transient_notification,null));
+        mToast.setView(View.inflate(TzjAppEnv.appCtx, R.layout.transient_notification,null));
     }
 
     public static Context getAppCtx(){
         if(appCtx==null){
-            throw new RuntimeException("请先调用 AppEnv.init");
+            throw new RuntimeException("请先调用 TzjAppEnv.init");
         }
         return appCtx;
     }
 
     public static Toast getToast() {
         if(mToast==null){
-            throw new RuntimeException("请先调用 AppEnv.init");
+            throw new RuntimeException("请先调用 TzjAppEnv.init");
         }
         return mToast;
     }
@@ -49,7 +49,7 @@ public class AppEnv {
     }
     public static void post(Runnable r,int time){
         try {
-            if (AppConfig.isAndroid()){
+            if (TzjAppConfig.isAndroid()){
                 mHandler.postDelayed(r, time);
             }else{
                 r.run();//这里没有延时

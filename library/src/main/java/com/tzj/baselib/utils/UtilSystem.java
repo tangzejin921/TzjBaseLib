@@ -60,8 +60,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.TextView;
 
-import com.tzj.baselib.env.AppEnv;
-import com.tzj.baselib.env.config.BuildConfig;
+import com.tzj.baselib.env.TzjAppEnv;
+import com.tzj.baselib.env.config.TzjBuildConfig;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -323,7 +323,7 @@ public class UtilSystem {
      */
     public static void setScreenLight(Context ctx, boolean isLight, int flag) {
         PowerManager manager = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock newWakeLock = manager.newWakeLock(flag, BuildConfig.getAppName()+":"+BuildConfig.getApplicationId());
+        PowerManager.WakeLock newWakeLock = manager.newWakeLock(flag, TzjBuildConfig.getAppName()+":"+ TzjBuildConfig.getApplicationId());
         if (isLight) {
             newWakeLock.acquire();//保持
         } else {
@@ -692,7 +692,7 @@ public class UtilSystem {
         if (pattern == null) {
             pattern = new long[]{0, 100, 300, 100, 100, 300};
         }
-        Vibrator vibrator = (Vibrator) AppEnv.getAppCtx().getSystemService(Context.VIBRATOR_SERVICE);
+        Vibrator vibrator = (Vibrator) TzjAppEnv.getAppCtx().getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(pattern, -1);
     }
 
@@ -715,10 +715,10 @@ public class UtilSystem {
                 if (path.contains("/")) {
                     soundID = pool.load(path, 1);
                 } else {
-                    soundID = pool.load(AppEnv.getAppCtx().getAssets().openFd(path), 1);
+                    soundID = pool.load(TzjAppEnv.getAppCtx().getAssets().openFd(path), 1);
                 }
                 soundName = name;
-                AppEnv.post(new Runnable() {
+                TzjAppEnv.post(new Runnable() {
                     @Override
                     public void run() {
                         pool.play(soundID, 1, 1, 0, 0, 1);
@@ -865,7 +865,7 @@ public class UtilSystem {
     public static void downLoad(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        AppEnv.getAppCtx().startActivity(intent);
+        TzjAppEnv.getAppCtx().startActivity(intent);
     }
 
     /**
@@ -886,7 +886,7 @@ public class UtilSystem {
         if (name == null) {
             name = UtilUri.getLast(url, "/");
         }
-        DownloadManager download = (DownloadManager) AppEnv.getAppCtx().getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager download = (DownloadManager) TzjAppEnv.getAppCtx().getSystemService(Context.DOWNLOAD_SERVICE);
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         // 设置允许使用的网络类型，这里是移动网络和wifi都可以

@@ -2,8 +2,8 @@ package com.tzj.baselib.utils;
 
 import android.util.Log;
 
-import com.tzj.baselib.env.config.AppConfig;
-import com.tzj.baselib.env.config.BuildConfig;
+import com.tzj.baselib.env.config.TzjAppConfig;
+import com.tzj.baselib.env.config.TzjBuildConfig;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
  * log 打印
  */
 public class UtilLog {
-    public static boolean debug= BuildConfig.isDebug();
+    public static boolean debug= TzjBuildConfig.isDebug();
 
     /**
      * 异常
@@ -113,7 +113,7 @@ public class UtilLog {
 
 
     private static void logi(String tag,String substr){
-        if (AppConfig.isAndroid()){
+        if (TzjAppConfig.isAndroid()){
             Log.i(tag,substr);
         }else {
             System.out.println(substr);
@@ -122,7 +122,7 @@ public class UtilLog {
 
 
     private static void loge(String tag,String substr){
-        if (AppConfig.isAndroid()){
+        if (TzjAppConfig.isAndroid()){
             Log.e(tag,substr);
         }else {
             System.err.println(substr);

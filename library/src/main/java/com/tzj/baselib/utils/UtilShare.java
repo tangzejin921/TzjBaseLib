@@ -14,7 +14,7 @@
 //import com.tencent.mm.sdk.openapi.WXAPIFactory;
 //import com.tencent.tauth.IUiListener;
 //import com.tencent.tauth.Tencent;
-//import com.tzj.baselib.env.AppEnv;
+//import com.tzj.baselib.env.TzjAppEnv;
 //
 //import java.io.File;
 //import java.util.ArrayList;
@@ -110,7 +110,7 @@
 //	public static void shareImage(Activity act,String imagePath){
 //		Intent intent = new Intent(Intent.ACTION_SEND);
 //		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//	    intent.putExtra(Intent.EXTRA_STREAM, UtilUri.parUri(AppEnv.getAppCtx(),new File(imagePath))); //添加附件，附件为file对象
+//	    intent.putExtra(Intent.EXTRA_STREAM, UtilUri.parUri(TzjAppEnv.getAppCtx(),new File(imagePath))); //添加附件，附件为file对象
 //	    intent.setType("image/*");
 //		act.startActivity(intent);
 //	}
@@ -120,7 +120,7 @@
 //	public static void shareFile(Activity act,String filePath){
 //		Intent intent = new Intent(Intent.ACTION_SEND);
 //		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//	    intent.putExtra(Intent.EXTRA_STREAM, UtilUri.parUri(AppEnv.getAppCtx(),new File(filePath))); //添加附件，附件为file对象
+//	    intent.putExtra(Intent.EXTRA_STREAM, UtilUri.parUri(TzjAppEnv.getAppCtx(),new File(filePath))); //添加附件，附件为file对象
 //	    intent.setType("file/*");
 //		act.startActivity(intent);
 //	}

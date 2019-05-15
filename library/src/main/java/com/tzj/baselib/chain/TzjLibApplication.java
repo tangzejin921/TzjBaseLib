@@ -6,8 +6,8 @@ import android.support.multidex.MultiDexApplication;
 import com.github.moduth.blockcanary.AppBlockCanaryContext;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.squareup.leakcanary.LeakCanary;
-import com.tzj.baselib.env.AppEnv;
-import com.tzj.baselib.env.config.BuildConfig;
+import com.tzj.baselib.env.TzjAppEnv;
+import com.tzj.baselib.env.config.TzjBuildConfig;
 import com.tzj.baselib.utils.UtilSystem;
 
 public abstract class TzjLibApplication extends MultiDexApplication {
@@ -17,7 +17,7 @@ public abstract class TzjLibApplication extends MultiDexApplication {
         super.onCreate();
         LeakCanary.install(this);
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
-        if (BuildConfig.isDebug()) {
+        if (TzjBuildConfig.isDebug()) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectAll()
                     .penaltyLog()
@@ -37,7 +37,7 @@ public abstract class TzjLibApplication extends MultiDexApplication {
      * 主进程要自行的东西
      */
     protected void mainProcessOnCreate() {
-        AppEnv.init(this);
+        TzjAppEnv.init(this);
     }
     /**
      * 其他进程要执行的内容

@@ -3,7 +3,7 @@ package com.tzj.baselib.env.config;
 /**
  * 静态配置
  */
-public class AppConfig {
+public class TzjAppConfig {
     /**
      * android平台
      */

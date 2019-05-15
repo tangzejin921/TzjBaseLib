@@ -11,7 +11,7 @@ import android.util.TypedValue;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.tzj.baselib.env.AppEnv;
+import com.tzj.baselib.env.TzjAppEnv;
 
 
 /**
@@ -21,7 +21,7 @@ public class UtilApp {
 
     public static void show(int res) {
         if (res >0 && (res & 0x7f000000) == 0x7f000000){
-            show(AppEnv.getAppCtx().getResources().getString(res));
+            show(TzjAppEnv.getAppCtx().getResources().getString(res));
         }else{
             show(res+"");
         }
@@ -29,14 +29,14 @@ public class UtilApp {
 
     public static void show(final CharSequence c) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
-            AppEnv.getToast().setText(c);
-            AppEnv.getToast().show();
+            TzjAppEnv.getToast().setText(c);
+            TzjAppEnv.getToast().show();
         } else {
-            AppEnv.post(new Runnable() {
+            TzjAppEnv.post(new Runnable() {
                 @Override
                 public void run() {
-                    AppEnv.getToast().setText(c);
-                    AppEnv.getToast().show();
+                    TzjAppEnv.getToast().setText(c);
+                    TzjAppEnv.getToast().show();
                 }
             });
         }
@@ -58,7 +58,7 @@ public class UtilApp {
      * 得到资源ID
      */
     public static int getRid(String type, String r) {
-        return getRid(AppEnv.getAppCtx(), type, r);
+        return getRid(TzjAppEnv.getAppCtx(), type, r);
     }
 
     public static int getRid(Context ctx, String type, String r) {
@@ -69,14 +69,14 @@ public class UtilApp {
      * dp 转 px
      */
     public static int dp2px(float dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, AppEnv.displayMetrics);
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, TzjAppEnv.displayMetrics);
     }
 
     /**
      * px 转 dp
      */
     public static int px2dp(float px) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, AppEnv.displayMetrics);
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, TzjAppEnv.displayMetrics);
     }
 
     /**

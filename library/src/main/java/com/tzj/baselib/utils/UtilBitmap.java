@@ -19,7 +19,7 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.tzj.baselib.env.AppEnv;
+import com.tzj.baselib.env.TzjAppEnv;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -54,16 +54,16 @@ public class UtilBitmap {
     }
     public static Bitmap getBitmap(int id,boolean isOptions) {
         if (isOptions) {
-            return BitmapFactory.decodeResource(AppEnv.getAppCtx().getResources(), id,options);
+            return BitmapFactory.decodeResource(TzjAppEnv.getAppCtx().getResources(), id,options);
         }else{
-            return BitmapFactory.decodeResource(AppEnv.getAppCtx().getResources(), id);
+            return BitmapFactory.decodeResource(TzjAppEnv.getAppCtx().getResources(), id);
         }
     }
     public static BitmapDrawable getDrawable(int id, boolean isOptions) {
-        return new BitmapDrawable(AppEnv.getAppCtx().getResources(),getBitmap(id,isOptions));
+        return new BitmapDrawable(TzjAppEnv.getAppCtx().getResources(),getBitmap(id,isOptions));
     }
     public static BitmapDrawable getDrawable(String path,boolean isOptions) {
-        return new BitmapDrawable(AppEnv.getAppCtx().getResources(),getBitmap(path,isOptions));
+        return new BitmapDrawable(TzjAppEnv.getAppCtx().getResources(),getBitmap(path,isOptions));
     }
     /**
      * 自己src目录下的图片 src/test.png
@@ -199,7 +199,7 @@ public class UtilBitmap {
      */
     @SuppressLint("NewApi")
     public static Bitmap blur(Bitmap bkg, float radius) {
-        RenderScript rs = RenderScript.create(AppEnv.getAppCtx());
+        RenderScript rs = RenderScript.create(TzjAppEnv.getAppCtx());
         Allocation overlayAlloc = Allocation.createFromBitmap(rs, bkg);
 
         ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rs, overlayAlloc.getElement());

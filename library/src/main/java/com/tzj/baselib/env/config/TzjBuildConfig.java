@@ -3,12 +3,12 @@ package com.tzj.baselib.env.config;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-import com.tzj.baselib.env.AppEnv;
+import com.tzj.baselib.env.TzjAppEnv;
 import com.tzj.baselib.utils.UtilField;
 
 import java.lang.reflect.Field;
 
-public class BuildConfig {
+public class TzjBuildConfig {
 
     public static boolean isDebug(){
         try {
@@ -67,7 +67,7 @@ public class BuildConfig {
     }
 
     public static Object getValue(String name) throws Exception {
-        String clspath = AppEnv.getAppCtx().getPackageName()+".BuildConfig";
+        String clspath = TzjAppEnv.getAppCtx().getPackageName()+".TzjBuildConfig";
         Class<?> c = Class.forName(clspath);
         Object o = c.newInstance();
         Field field = UtilField.getField(c, name);
@@ -79,10 +79,10 @@ public class BuildConfig {
      */
     public static String getAppName(){
         try {
-            PackageManager packageManager = AppEnv.getAppCtx().getPackageManager();
-            PackageInfo packageInfo = packageManager.getPackageInfo(AppEnv.getAppCtx().getPackageName(), 0);
+            PackageManager packageManager = TzjAppEnv.getAppCtx().getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(TzjAppEnv.getAppCtx().getPackageName(), 0);
             int labelRes = packageInfo.applicationInfo.labelRes;
-            return AppEnv.getAppCtx().getResources().getString(labelRes);
+            return TzjAppEnv.getAppCtx().getResources().getString(labelRes);
         } catch (Exception e) {
             e.printStackTrace();
         }

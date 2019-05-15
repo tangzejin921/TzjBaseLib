@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.format.Formatter;
 
-import com.tzj.baselib.env.AppEnv;
+import com.tzj.baselib.env.TzjAppEnv;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -169,7 +169,7 @@ public class UtilFile {
                     fos.write(buffer, 0, len);
                     obtain.arg1 += len;
                     if (obtain.what != -1) {
-                        AppEnv.post(run);
+                        TzjAppEnv.post(run);
                     }
                 }
             } else {            //不对外通知进度
@@ -323,7 +323,7 @@ public class UtilFile {
      * @return
      */
     public static String getFileSize(long size) {
-        return Formatter.formatFileSize(AppEnv.getAppCtx(), size);
+        return Formatter.formatFileSize(TzjAppEnv.getAppCtx(), size);
     }
 
     /**

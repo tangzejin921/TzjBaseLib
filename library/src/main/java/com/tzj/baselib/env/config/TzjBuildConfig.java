@@ -67,7 +67,7 @@ public class TzjBuildConfig {
     }
 
     public static Object getValue(String name) throws Exception {
-        String clspath = TzjAppEnv.getAppCtx().getPackageName()+".TzjBuildConfig";
+        String clspath = TzjAppEnv.getAppCtx().getPackageName()+".BuildConfig";
         Class<?> c = Class.forName(clspath);
         Object o = c.newInstance();
         Field field = UtilField.getField(c, name);

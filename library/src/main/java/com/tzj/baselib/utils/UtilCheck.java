@@ -19,7 +19,8 @@ import java.util.regex.Pattern;
  */
 public class UtilCheck {
     private final static Pattern emailer = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
-    private final static Pattern phone = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(17[^4,\\D])|(18[0,5-9]))\\d{8}$");
+    //手机号验证放宽松
+    private final static Pattern phone = Pattern.compile("^1+[35789]+\\d{9}");
     private final static Pattern p = Pattern.compile("^[\u4E00-\u9FA50-9a-zA-Z_-]{0,}$");
 
     /**

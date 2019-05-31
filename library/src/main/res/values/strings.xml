@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BaseLibrary</string>
+    <!--限制输入身份证-->
+    <string name="digit_idNo">0123456789Xx</string>
 </resources>

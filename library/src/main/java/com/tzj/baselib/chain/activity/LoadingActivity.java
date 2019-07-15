@@ -3,6 +3,7 @@ package com.tzj.baselib.chain.activity;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 
+import com.tzj.baselib.R;
 import com.tzj.baselib.chain.dia.BaseDialog;
 import com.tzj.baselib.chain.dia.DefaultCreateDialog;
 import com.tzj.baselib.chain.dia.LoadingDialog;
@@ -26,13 +27,17 @@ public class LoadingActivity extends SelectPicActivity {
     private volatile Integer number = 0;
 
     public void showProgress() {
+        showProgress(getResources().getBoolean(R.bool.progress_can_cancel));
+    }
+    protected void showProgress(boolean canCancle) {
         synchronized (this) {
             if (dialog == null) {
                 number = 0;
                 dialog = createDialog.createDialog(this);
+                dialog.setOnDismissListener(dialog->number = 0);
             }
             if (!dialog.isShowing()) {
-                dialog.show(false);
+                dialog.show(canCancle);
             }
             ++number;
         }

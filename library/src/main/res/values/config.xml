@@ -3,5 +3,6 @@
     <!--sdCard 文件目录-->
     <string name="company">Tzj</string>
     <string name="app">@string/app_name</string>
+    <bool name="progress_can_cancel">false</bool>
 
 </resources>

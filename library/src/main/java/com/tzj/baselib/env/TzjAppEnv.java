@@ -1,6 +1,6 @@
 package com.tzj.baselib.env;
 
-import android.content.Context;
+import android.app.Application;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -17,12 +17,12 @@ import com.tzj.baselib.env.config.TzjAppConfig;
 public class TzjAppEnv {
     private static Handler mHandler = new Handler();
     private static Toast mToast;
-    private static Context appCtx;
+    private static Application appCtx;
     public static DisplayMetrics displayMetrics;
 
-    public static void init(Context ctx){
-        TzjAppEnv.appCtx = ctx.getApplicationContext();
-        displayMetrics = ctx.getResources().getDisplayMetrics();
+    public static void init(Application app){
+        TzjAppEnv.appCtx = app;
+        displayMetrics = app.getResources().getDisplayMetrics();
 //        TzjAppEnv.mToast = Toast.makeText(TzjAppEnv.appCtx,"",Toast.LENGTH_LONG);
         TzjAppEnv.mToast = new Toast(TzjAppEnv.appCtx);
         mToast.setGravity(Gravity.CENTER,0,0);
@@ -30,7 +30,7 @@ public class TzjAppEnv {
         mToast.setView(View.inflate(TzjAppEnv.appCtx, R.layout.transient_notification,null));
     }
 
-    public static Context getAppCtx(){
+    public static Application getAppCtx(){
         if(appCtx==null){
             throw new RuntimeException("请先调用 TzjAppEnv.init");
         }

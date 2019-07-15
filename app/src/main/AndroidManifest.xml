@@ -24,6 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.tzj.baselib.RefreshListActivity"
+            android:label="列表刷新demo"/>
+
+        <activity android:name="com.tzj.baselib.MvvmActivity"
+            android:label="MVVMdemo"/>
+        <activity android:name="com.tzj.baselib.Mvvm2Activity"
+            android:label="MVVMdemo"/>
     </application>
 
 </manifest>

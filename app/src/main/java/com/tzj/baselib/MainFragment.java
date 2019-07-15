@@ -2,6 +2,7 @@ package com.tzj.baselib;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.View;
 
 import com.tzj.baselib.chain.fragment.BaseLibFragment;
@@ -32,7 +33,11 @@ public class MainFragment extends BaseLibFragment {
         mRecyclerView.setClickListener(new TzjAdapter.OnClickIndexListener() {
             @Override
             public void onClick(View view, int i) {
-                startActivity(new Intent(getActivity(),MainActivity.class));
+                startActivity(new Intent(getActivity(),RefreshListActivity.class));
+//                Intent addAccountIntent = new Intent(Settings.ACTION_ADD_ACCOUNT);
+//                addAccountIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+//                addAccountIntent.putExtra(Settings.EXTRA_AUTHORITIES,new String [] {"com.tzj.baselib.demo"});
+//                startActivity(addAccountIntent);
             }
         });
     }

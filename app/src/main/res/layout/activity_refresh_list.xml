@@ -5,17 +5,15 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/listRefresh"
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClick"
-        android:text="listRefresh"/>
+        android:background="@drawable/shape_osround_theme"
+        android:text="button"/>
 
-    <Button
-        android:id="@+id/mvvm"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPagers"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onClick"
-        android:text="mvvm"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

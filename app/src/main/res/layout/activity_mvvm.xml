@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="viewData"
+            type="com.tzj.baselib.dataBinding.ViewData" />
+        <variable
+            name="viewMode"
+            type="com.tzj.baselib.dataBinding.DataViewMode" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={viewData.text}"
+            android:hint="请输入内容" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="请输入内容"
+            android:text="@={viewData.text}"/>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{viewMode::onClick}"
+            android:text="清楚" />
+        <Button
+            android:id="@+id/toNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{viewMode::toNext}"
+            android:text="下一页" />
+    </LinearLayout>
+</layout>

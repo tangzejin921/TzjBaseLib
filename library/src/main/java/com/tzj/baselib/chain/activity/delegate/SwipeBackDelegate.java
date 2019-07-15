@@ -1,7 +1,7 @@
 package com.tzj.baselib.chain.activity.delegate;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -10,14 +10,14 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 
 /**
- * 滑动删除
+ * 滑动返回
  */
 public class SwipeBackDelegate extends ActivityDelegate implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
 
-    public SwipeBackDelegate(Activity activity) {
+    public SwipeBackDelegate(AppCompatActivity activity) {
         super(activity);
-        mHelper = new SwipeBackActivityHelper(mActivity);
+        mHelper = new SwipeBackActivityHelper(mActivity.get());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class SwipeBackDelegate extends ActivityDelegate implements SwipeBackActi
 
     @Override
     public void scrollToFinishActivity() {
-        Utils.convertActivityToTranslucent(mActivity);
+        Utils.convertActivityToTranslucent(mActivity.get());
         getSwipeBackLayout().scrollToFinishActivity();
     }
 

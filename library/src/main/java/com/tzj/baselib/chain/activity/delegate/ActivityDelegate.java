@@ -1,20 +1,22 @@
 package com.tzj.baselib.chain.activity.delegate;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import java.lang.ref.WeakReference;
 
 
 /**
  *
  */
 public class ActivityDelegate {
-    protected Activity mActivity;
-    public ActivityDelegate(Activity activity) {
-        mActivity = activity;
+    protected WeakReference<AppCompatActivity> mActivity;
+    public ActivityDelegate(AppCompatActivity activity) {
+        mActivity = new WeakReference<>(activity);
     }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class ActivityDelegate {
     }
 
     public void onDestroy() {
-        mActivity = null;
+        mActivity.clear();
     }
 
     /**

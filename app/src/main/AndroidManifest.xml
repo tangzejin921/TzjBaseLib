@@ -32,6 +32,8 @@
             android:label="MVVMdemo"/>
         <activity android:name="com.tzj.baselib.Mvvm2Activity"
             android:label="MVVMdemo"/>
+        <activity android:name="com.tzj.baselib.ImageViewActivity"
+            android:theme="@style/AppTheme.NoTitle"/>
     </application>
 
 </manifest>

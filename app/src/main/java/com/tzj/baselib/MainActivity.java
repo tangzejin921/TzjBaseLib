@@ -1,6 +1,7 @@
 package com.tzj.baselib;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.View;
 import com.tzj.baselib.chain.activity.BaseLibActivity;
 import com.tzj.baselib.demo.R;
 import com.tzj.baselib.widget.refresh.GifHeader;
+
+import java.util.List;
 
 
 public class MainActivity extends BaseLibActivity implements View.OnClickListener{
@@ -31,6 +34,14 @@ public class MainActivity extends BaseLibActivity implements View.OnClickListene
                 break;
             case R.id.mvvm:
                 start(new Intent(this,MvvmActivity.class),refresh);
+                break;
+            case R.id.pic:
+                openZhihuChoice(1, new Result() {
+                    @Override
+                    public void ok(List<Uri> uris) {
+                        ImageViewActivity.start(MainActivity.this,uris.get(0));
+                    }
+                });
                 break;
                 default:
         }

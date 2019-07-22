@@ -1,6 +1,7 @@
 package com.tzj.baselib.utils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -85,18 +86,17 @@ import java.util.UUID;
  */
 public class UtilSystem {
     /**
-     * 获取手机IMEI码 串号
+     * 获取手机唯一号
      */
-    @Deprecated
-    @RequiresPermission(android.Manifest.permission.READ_PHONE_STATE)
+    @SuppressLint("MissingPermission")
     public static String getPhoneIMEI(Context ctx) {
-        TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
-//        if (deviceId == null || deviceId.trim().length() == 0 || deviceId.matches("0+")) {
-//            deviceId = (new StringBuilder("EMU")).append((new Random(System.currentTimeMillis())).nextLong()).toString();
-//        }
-        return tm.getDeviceId();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.Secure.getString(ctx.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        } else {
+            TelephonyManager mngr = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+            return mngr.getDeviceId();
+        }
     }
-
     /**
      * 没权限会抛
      */

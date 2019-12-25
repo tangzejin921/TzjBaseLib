@@ -16,6 +16,7 @@ public class UtilUri {
      * 适配 FileProvider
      * 记得intent 加上
      * intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+     * 安装apk不能用 Build.VERSION_CODES.M
      */
     public static Uri parUri(Context ctx, File cameraFile) {
         Uri imageUri;

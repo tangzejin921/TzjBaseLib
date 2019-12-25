@@ -50,6 +50,7 @@ import android.provider.Settings;
 import android.support.annotation.RequiresPermission;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.FileProvider;
 import android.telephony.TelephonyManager;
 import android.text.Selection;
 import android.text.Spannable;
@@ -353,11 +354,18 @@ public class UtilSystem {
     /**
      * 安装apk
      */
+    @RequiresPermission(Manifest.permission.REQUEST_INSTALL_PACKAGES)
     public static void installApk(Context context, File file) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        intent.setDataAndType(UtilUri.parUri(context, file), "application/vnd.android.package-archive");
+        Uri uri;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
+        }else{
+            uri = Uri.fromFile(file);
+        }
+        intent.setDataAndType(uri, "application/vnd.android.package-archive");
         context.startActivity(intent);
     }
 
@@ -625,8 +633,11 @@ public class UtilSystem {
         //设置缓存
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
+        Bitmap temp = view.getDrawingCache();
+        temp = Bitmap.createBitmap(temp, 0, 0, temp.getWidth(), temp.getHeight());
+        view.destroyDrawingCache();
         //从缓存中获取当前屏幕的图片
-        return view.getDrawingCache();
+        return temp;
     }
 
     /**

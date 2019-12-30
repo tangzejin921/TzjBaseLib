@@ -27,6 +27,7 @@ public class DelegateActivity extends AppCompatActivity {
         list.add(new LogDelegate(this));
         list.add(new HandlerDelegate(this));
         list.add(new SwipeBackDelegate(this));
+        list.add(new ViewModelProvid(this));
     }
 
     @Override

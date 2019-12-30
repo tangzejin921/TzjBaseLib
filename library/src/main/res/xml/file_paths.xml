@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths >
+    <!--请注意，该值(path)引用的是子目录，而不是单个文件或多个文件。您不能通过文件名共享单个文件，也不能使用通配符指定文件的子集。-->
+    <root-path
+        name="root"
+        path="root" />
+    <!--/data/user/0/${applicationId}/files = Context.getFilesDir()-->
     <files-path
         name="share"
         path="share" />
+    <!--/data/user/0/${applicationId}/cache = Context.getCacheDir()-->
     <cache-path
         name="share"
         path="share"/>
+    <!--/storage/emulated/0 = Environment.getExternalStorageDirectory()-->
     <external-path
         name="share"
-        path="/"/>
+        path="share"/>
+    <!--/storage/emulated/0/Android/data/${applicationId}/files/XXXX = Environment.getExternalStorageDirectory(Environment.XXX)-->
     <external-files-path
         name="share"
-        path="/" />
+        path="share" />
+    <!--/storage/emulated/0/Android/data/${applicationId}/cache = Context.getExternalCacheDir()-->
     <external-cache-path
         name="share"
-        path="/" />
+        path="share" />
+    <!--/storage/emulated/0/Android/media/${applicationId} = Context.getExternalCacheDir()-->
     <root-path
         name="share"
-        path="/" />
+        path="share" />
+    <!--防止用了FileProvider生成Uri,而没有用对应的获取方法，也就是 Uri.getpath 不准确-->
+    <external-path
+        name="/storage/emulated/0"
+        path="" />
 </paths>

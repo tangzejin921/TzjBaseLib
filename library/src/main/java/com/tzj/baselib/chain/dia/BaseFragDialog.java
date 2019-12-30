@@ -10,6 +10,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.tzj.baselib.R;
 import com.tzj.baselib.chain.activity.BaseLibActivity;
 
 import java.lang.ref.WeakReference;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -31,6 +34,11 @@ public abstract class BaseFragDialog extends DialogFragment {
     private WeakReference<Context> ctx;
     protected View mRoot;
     protected Dialog.OnCancelListener cancelListener;
+    /**
+     * 放正在显示的 Dialog
+     */
+    private static Set<Class> map = new HashSet<>();
+
     public BaseFragDialog() {
         setStyle(R.style.dialog_base,R.style.dialog_base);
     }
@@ -167,6 +175,20 @@ public abstract class BaseFragDialog extends DialogFragment {
         show();
     }
 
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        if (map.contains(this.getClass())) {
+            return;
+        }
+        //网上说 把 commit 改为 commitAllowingStateLoss
+        try {
+            super.show(manager, getClass().getName());
+            map.add(this.getClass());
+        }catch (IllegalStateException e){
+            e.printStackTrace();
+        }
+    }
+
     public <T extends View> T findViewById(@IdRes int r){
         return mRoot.findViewById(r);
     }
@@ -198,5 +220,11 @@ public abstract class BaseFragDialog extends DialogFragment {
         if (activity != null && activity instanceof BaseLibActivity){
             ((BaseLibActivity) activity).dismissProgress();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        map.remove(this.getClass());
     }
 }

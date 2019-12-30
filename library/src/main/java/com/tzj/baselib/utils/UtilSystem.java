@@ -1,6 +1,7 @@
 package com.tzj.baselib.utils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -49,6 +50,7 @@ import android.provider.Settings;
 import android.support.annotation.RequiresPermission;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.FileProvider;
 import android.telephony.TelephonyManager;
 import android.text.Selection;
 import android.text.Spannable;
@@ -85,18 +87,17 @@ import java.util.UUID;
  */
 public class UtilSystem {
     /**
-     * 获取手机IMEI码 串号
+     * 获取手机唯一号
      */
-    @Deprecated
-    @RequiresPermission(android.Manifest.permission.READ_PHONE_STATE)
+    @SuppressLint("MissingPermission")
     public static String getPhoneIMEI(Context ctx) {
-        TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
-//        if (deviceId == null || deviceId.trim().length() == 0 || deviceId.matches("0+")) {
-//            deviceId = (new StringBuilder("EMU")).append((new Random(System.currentTimeMillis())).nextLong()).toString();
-//        }
-        return tm.getDeviceId();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.Secure.getString(ctx.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        } else {
+            TelephonyManager mngr = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+            return mngr.getDeviceId();
+        }
     }
-
     /**
      * 没权限会抛
      */
@@ -364,11 +365,18 @@ public class UtilSystem {
     /**
      * 安装apk
      */
+    @RequiresPermission(Manifest.permission.REQUEST_INSTALL_PACKAGES)
     public static void installApk(Context context, File file) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        intent.setDataAndType(UtilUri.parUri(context, file), "application/vnd.android.package-archive");
+        Uri uri;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
+        }else{
+            uri = Uri.fromFile(file);
+        }
+        intent.setDataAndType(uri, "application/vnd.android.package-archive");
         context.startActivity(intent);
     }
 
@@ -636,8 +644,11 @@ public class UtilSystem {
         //设置缓存
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
+        Bitmap temp = view.getDrawingCache();
+        temp = Bitmap.createBitmap(temp, 0, 0, temp.getWidth(), temp.getHeight());
+        view.destroyDrawingCache();
         //从缓存中获取当前屏幕的图片
-        return view.getDrawingCache();
+        return temp;
     }
 
     /**

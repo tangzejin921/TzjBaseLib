@@ -209,6 +209,7 @@ public class SelectPicActivity extends StartActivity {
                                 view.buildDrawingCache();
                                 //从缓存中获取当前屏幕的图片
                                 Bitmap bitmap = view.getDrawingCache();
+                                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight());
                                 try {
                                     String temp = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, Environment.DIRECTORY_DCIM, "temp");
                                     final List<Uri> list = new ArrayList<>();

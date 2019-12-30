@@ -15,6 +15,7 @@ public abstract class TzjLibApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        TzjAppEnv.init(this);
         LeakCanary.install(this);
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         if (TzjBuildConfig.isDebug()) {
@@ -37,7 +38,7 @@ public abstract class TzjLibApplication extends MultiDexApplication {
      * 主进程要自行的东西
      */
     protected void mainProcessOnCreate() {
-        TzjAppEnv.init(this);
+
     }
     /**
      * 其他进程要执行的内容

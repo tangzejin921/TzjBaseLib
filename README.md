@@ -12,6 +12,10 @@
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     //glide 图片加载
     api 'com.github.bumptech.glide:glide:4.7.1'
+    //知乎的图片选择
+    api 'com.zhihu.android:matisse:0.5.2-beta4'
+    //lifecycle
+    api 'android.arch.lifecycle:extensions:1.1.1'
 }
 
 ### BaseActivity 

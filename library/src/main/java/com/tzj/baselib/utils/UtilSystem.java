@@ -254,9 +254,20 @@ public class UtilSystem {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+//                        try {
+//                            Intent intent = new Intent();
+//                            intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+//                            intent.putExtra("app_package", ctx.getPackageName());
+//                            intent.putExtra("app_uid", ctx.getApplicationInfo().uid);
+//                            ctx.startActivity(intent);
+//                        } catch (ActivityNotFoundException e) {
+//                            openSetting(ctx);
+//                        }
                         try {
                             Intent intent = new Intent();
-                            intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                            intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                            intent.putExtra(Settings.EXTRA_APP_PACKAGE, ctx.getPackageName());
+                            intent.putExtra(Settings.EXTRA_CHANNEL_ID, ctx.getApplicationInfo().uid);
                             intent.putExtra("app_package", ctx.getPackageName());
                             intent.putExtra("app_uid", ctx.getApplicationInfo().uid);
                             ctx.startActivity(intent);

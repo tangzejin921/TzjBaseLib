@@ -204,6 +204,14 @@ public class UtilDate {
         return monday.get(Calendar.DAY_OF_WEEK) - 1;
     }
     /**
+     * 一年中的第几月
+     */
+    public static int getMonthOfYear(Date date){
+        Calendar monday = Calendar.getInstance();
+        monday.setTime(date);
+        return monday.get(Calendar.MONTH);
+    }
+    /**
      * 获取表示当前日期的0点时间毫秒数
      */
     public static long getFirstTimeOfDay() {

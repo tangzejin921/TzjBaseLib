@@ -1,23 +1,23 @@
 # MVVM
 
-## Lifecycles
-生命周期感知组件
-LifecycleRegistry
-LifecycleOwner
-LifecycleObserver
+## Lifecycles 观察者模式，对外提供生命周期
+生命周期感知组件 Activity里有此集合
+LifecycleRegistry::Lifecycle (数据看做：list<LifecycleObserver>,Activity中实例化)
+LifecycleObserver ()
 
-## ViewModel
+## ViewModelStore 跟随生命周期 Activity,Fragment 的数据容器
 存储和管理与UI相关的数据
-他自身会被存放在 ViewModelStore，本质是 HashMap
-没什么特别的，就一个界面关闭时清楚数据
+ViewModelStore (数据:Map<String,ViewModel>,Activity,Fragment中实例化)
 
-## LiveData
-可带有生命周期感知的观察者，可被 Observer 观察
-内部看到一个类 ArchTaskExecutor，在什么线程执行Runnable
+## LiveData 观察者模式，对外提供数据的变化事件
+可带有生命周期感知的被观察者，可被 Observer 观察
+LiveData (数据:Map<Observer,ObserverWrapper>)
+1.通过 observe ObserverWrapper 包装了 LifecycleObserver，对Lifecycles进行生命周期感知,并自动移除
+2.通过 observeForever ObserverWrapper 包装了 AlwaysActiveObserver,需要手动维护监听
+注意没有粘性效果?
 
------
-activity 存放 ViewModel,
-ViewModel 存放 LiveData
+## ArchTaskExecutor 线程
+
 
 ## databinding
 默认是改变数据然后可以改变界面

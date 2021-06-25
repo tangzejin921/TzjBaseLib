@@ -124,7 +124,7 @@ public class DelegateActivity extends AppCompatActivity {
             iterator.next().onDestroy();
             iterator.remove();
         }
-        if (mHandler != null && !mHandler.isClsed()) {
+        if (mHandler != null && !mHandler.isClosed()) {
             mHandler.close();
             mHandler = null;
         }
